@@ -124,7 +124,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-MEDIA_URL = 'media/'
+MEDIA_URL = 'cms/media/'
 
 STATICFILES_DIRS = [
     path.join(BASE_DIR, 'static')

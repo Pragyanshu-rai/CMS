@@ -6,8 +6,7 @@ import datetime
 
 # Create your models here.
 
-# models list
-
+# The list below contains the names of all the models in this application
 # models_list = ["Doctor", "Contact", "Details", "Reports", "Booking", "History"]
 
 

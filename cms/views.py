@@ -8,7 +8,7 @@ from django.contrib import messages
 
 from .models import *
 
-from .mail import send_email
+from cmsUtils.mail import send_email
 
 from os import path
 

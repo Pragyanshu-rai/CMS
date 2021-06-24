@@ -8,10 +8,14 @@ from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from io import BytesIO
 from .apiUtils import models_to_dict, get_contact_or_none, validate_signup
+from random import randint
+
+# importing stuff from cms module which is parallel to cms_api(this) module
 from cms.models import Contact, Details, Doctor, History, Booking, Reports
 from cms.serializers import ContactSerializer, HistorySerializer, UserSerializer, DoctorSerializer
-from cms.mail import send_email
-from random import randint
+
+# importing stuff from cmsUtils module which is parallel to cms_api(this) module
+from cmsUtils.mail import send_email
 
 # Create your views here.
 
@@ -34,8 +38,6 @@ def instruction(request):
     return JsonResponse({"MSG": instructions, "API-List": api_list}, safe=False)
 
 
-
-
 @csrf_exempt
 def request_otp(request):
 
@@ -47,16 +49,16 @@ def request_otp(request):
             print(email)
             otp = str(randint(100000, 999999))
             send_email("OTP", otp, email)
-            return JsonResponse({"MSG":"OTP Sent To The Registered Email", "OTP":otp}, safe=False)
+            return JsonResponse({"MSG": "OTP Sent To The Registered Email", "OTP": otp}, safe=False)
 
         else:
 
-            return JsonResponse({"ERR":"'email' is required but not provided!"}, safe=False)
-    
+            return JsonResponse({"ERR": "'email' is required but not provided!"}, safe=False)
+
     except Exception as error:
 
         print("[SERVER-ERROR]", error)
-        return JsonResponse({"ERR":error}, safe=False)
+        return JsonResponse({"ERR": error}, safe=False)
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -73,13 +75,14 @@ class patient_api(APIView):
                 if "user_id" in python_data.keys():
 
                     try:
-                        
-                        ct = Contact.objects.get(user_id=python_data.pop("user_id"))
+
+                        ct = Contact.objects.get(
+                            user_id=python_data.pop("user_id"))
                         ser = ContactSerializer(ct)
                         return JsonResponse(ser.data, safe=False)
-                    
+
                     except:
-                        
+
                         return JsonResponse({"ERR": "Id Does Not Exist"}, safe=False)
 
                 else:
@@ -90,13 +93,13 @@ class patient_api(APIView):
 
             else:
 
-                return JsonResponse({"ERR":"Empty Json File, put these '{' '}' "}, safe=False)
+                return JsonResponse({"ERR": "Empty Json File, put these '{' '}' "}, safe=False)
 
         except Exception as error:
 
             print("Exception", error)
             return JsonResponse({"ERR": error}, safe=False)
-    
+
     def post(self, request):
 
         try:
@@ -107,25 +110,24 @@ class patient_api(APIView):
                 print(python_data)
                 valid = validate_signup(python_data)
                 print(valid)
-                
+
                 if valid != None:
-                    
-                    return JsonResponse({"ERR":valid}, safe=False)
-                
+
+                    return JsonResponse({"ERR": valid}, safe=False)
+
                 print(python_data)
                 ser = ContactSerializer(data=python_data)
-                
+
                 if ser.is_valid():
                     ser.save()
                     print("Data Saved")
-                    return JsonResponse({"MSG":"DATA SAVED", "DATA":ser.data}, safe=False)
-                
-                return JsonResponse({"ERR":ser.errors}, safe=False)
+                    return JsonResponse({"MSG": "DATA SAVED", "DATA": ser.data}, safe=False)
 
+                return JsonResponse({"ERR": ser.errors}, safe=False)
 
             else:
 
-                return JsonResponse({"ERR":"Empty Json File, put these '{' '}' "}, safe=False)
+                return JsonResponse({"ERR": "Empty Json File, put these '{' '}' "}, safe=False)
 
         except Exception as error:
 
@@ -147,14 +149,15 @@ class doctor_api(APIView):
                 if "doctor_id" in python_data.keys():
 
                     try:
-                    
-                        doc = Doctor.objects.get(id=python_data.pop("doctor_id"))
+
+                        doc = Doctor.objects.get(
+                            id=python_data.pop("doctor_id"))
                         ser = DoctorSerializer(doc)
                         return JsonResponse(ser.data, safe=False)
-                    
+
                     except:
 
-                        return JsonResponse({"ERR":"ID Does Not Exist"}, safe=False)
+                        return JsonResponse({"ERR": "ID Does Not Exist"}, safe=False)
 
                 else:
 
@@ -164,7 +167,7 @@ class doctor_api(APIView):
 
             else:
 
-                return JsonResponse({"ERR":"Empty Json File, put these '{' '}' "}, safe=False)
+                return JsonResponse({"ERR": "Empty Json File, put these '{' '}' "}, safe=False)
 
         except Exception as error:
 
@@ -186,15 +189,16 @@ class history_api(APIView):
                 if "user_id" in python_data.keys():
 
                     try:
-                    
-                        his = History.objects.get(patient_id=python_data.pop("user_id"))
+
+                        his = History.objects.get(
+                            patient_id=python_data.pop("user_id"))
                         ser = HistorySerializer(his)
                         return JsonResponse(ser.data, safe=False)
-                    
+
                     except Exception as error:
-                        
+
                         print("[SERVER-ERROR]", error)
-                        return JsonResponse({"ERR":"ID Does Not Exist"}, safe=False)
+                        return JsonResponse({"ERR": "ID Does Not Exist"}, safe=False)
 
                 else:
 
@@ -204,7 +208,7 @@ class history_api(APIView):
 
             else:
 
-                return JsonResponse({"ERR":"Empty Json File, put these '{' '}' "}, safe=False)
+                return JsonResponse({"ERR": "Empty Json File, put these '{' '}' "}, safe=False)
 
         except Exception as error:
 
@@ -224,13 +228,14 @@ class details_api(APIView):
 
             if "user_id" in python_data.keys():
 
-                contact = get_contact_or_none(Contact.objects, python_data.pop('user_id'))
-                
+                contact = get_contact_or_none(
+                    Contact.objects, python_data.pop('user_id'))
+
                 if contact == None:
-                    
+
                     print("[SERVER-ERROR] Id Does not Exist")
-                    return JsonResponse({"ERR":"ID Does Not Exist"}, safe=False)
-                
+                    return JsonResponse({"ERR": "ID Does Not Exist"}, safe=False)
+
                 details = Details.objects.filter(contact_id=contact.id)
                 data = models_to_dict(details)
                 print("json-data:\n", data)
@@ -259,13 +264,14 @@ class reports_api(APIView):
 
             if "user_id" in python_data.keys():
 
-                contact = get_contact_or_none(Contact.objects, python_data.pop('user_id'))
-                
+                contact = get_contact_or_none(
+                    Contact.objects, python_data.pop('user_id'))
+
                 if contact == None:
-                    
+
                     print("[SERVER-ERROR] Id Does not Exist")
-                    return JsonResponse({"ERR":"ID Does Not Exist"}, safe=False)
-                
+                    return JsonResponse({"ERR": "ID Does Not Exist"}, safe=False)
+
                 reports = Reports.objects.filter(contact_id=contact.id)
                 data = models_to_dict(reports)
                 print("json-data:\n", data)
@@ -294,13 +300,14 @@ class booking_api(APIView):
 
             if "user_id" in python_data.keys():
 
-                contact = get_contact_or_none(Contact.objects, python_data.pop('user_id'))
-                
+                contact = get_contact_or_none(
+                    Contact.objects, python_data.pop('user_id'))
+
                 if contact == None:
-                    
+
                     print("[SERVER-ERROR] Id Does not Exist")
-                    return JsonResponse({"ERR":"ID Does Not Exist"}, safe=False)
-                
+                    return JsonResponse({"ERR": "ID Does Not Exist"}, safe=False)
+
                 bookings = Booking.objects.filter(contact_id=contact.id)
                 data = models_to_dict(bookings)
                 print("json-data:\n", data)
