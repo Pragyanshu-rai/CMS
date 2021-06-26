@@ -18,6 +18,8 @@ from random import randint
 
 import datetime
 
+from .viewsUtil import modifySession
+
 # Create your views here.
 
 user = "pranshu: 12, user_test: user1 "
@@ -28,9 +30,29 @@ OTP = dict()
 
 stuff['change'] = False
 
-stuff['slots'] = ['09:00 AM', '09:30 AM',
-                  '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM']
+stuff['slots'] = [
+    '09:00 AM', 
+    '09:30 AM',  
+    '10:00 AM', 
+    '10:30 AM', 
+    '11:00 AM', 
+    '11:30 AM'
+    ]
 
+# not a regular view function
+#######
+
+def sessionValid(request):
+    
+    global stuff
+
+    if modifySession(request) == False:
+
+        stuff['warning'] = False
+        messages.info(request, 'Session Expired! Please Login Again.')
+        return redirect('home')
+
+#######
 
 def error(request, path):
     return render(request, 'cms/forbid.html')
@@ -43,6 +65,8 @@ def home(request):
     if request.user.is_authenticated == True:
         
         print(request.user)
+
+        sessionValid(request)
 
         contact = Contact.objects.get(user_id=request.user.id)
 
@@ -78,6 +102,8 @@ def aboutme(request):
 def profile(request):
 
     if request.user.is_authenticated == True:
+        
+        sessionValid(request)
 
         contact = Contact.objects.get(user=request.user)
 
@@ -102,6 +128,8 @@ def pastconsult(request):
 
     if request.user.is_authenticated == True:
 
+        sessionValid(request)
+
         contact = Contact.objects.get(user=request.user)
 
         stuff['records'] = Details.objects.filter(contact=contact)
@@ -117,6 +145,8 @@ def dashboard(request):
 
     if request.user.is_authenticated == True:
 
+        sessionValid(request)
+
         contact = Contact.objects.get(user=request.user)
 
         return render(request, 'cms/dashboard.html', stuff)
@@ -129,6 +159,8 @@ def pastbooking(request):
     global stuff
 
     if request.user.is_authenticated == True:
+
+        sessionValid(request)
 
         check_bookings(datetime.date.today())
 
@@ -148,6 +180,8 @@ def activebooking(request):
     global stuff
 
     if request.user.is_authenticated == True:
+
+        sessionValid(request)
 
         check_bookings(datetime.date.today())
 
@@ -186,6 +220,8 @@ def report(request):
 
     if request.user.is_authenticated == True:
 
+        sessionValid(request)
+
         contact = Contact.objects.get(user=request.user)
 
         stuff['reports'] = Reports.objects.filter(contact=contact)
@@ -200,6 +236,8 @@ def doctors(request):
     global stuff
 
     if request.user.is_authenticated == True:
+
+        sessionValid(request)
 
         check_bookings(datetime.date.today())
 
@@ -223,6 +261,8 @@ def doctors(request):
 def booking(request):
 
     if request.user.is_authenticated == True:
+
+        sessionValid(request)
 
         doc = stuff.get('doctor', None)
 
@@ -309,6 +349,8 @@ def login(request):
 
             auth.login(request, user)
 
+            request.session["user"] = user.id
+
             stuff['warning'] = False
 
             return redirect('home')
@@ -385,6 +427,8 @@ def otp(request, uid=-1):
 
     if request.method == 'POST':
 
+        sessionValid(request)
+
         if OTP[request.user.id] == request.POST['otp']:
 
             messages.info(request, 'Correct OTP')
@@ -410,6 +454,8 @@ def forgot(request):
     global stuff
 
     if request.method == "POST":
+
+        sessionValid(request)
 
         email = request.POST['email']
 
@@ -446,6 +492,8 @@ def forgot(request):
 def change(request, uid=-1):
 
     global stuff
+    
+    sessionValid(request)
 
     if stuff['change'] == True:
 

@@ -10,6 +10,10 @@
 
 {% block main_block %}
 
+    {% if user.is_authenticated %}
+        <div class="index"></div>
+    {% endif %}
+   
    <main class="main-body">
 	    <header class="row welcome-section">    
             <div class="col-lg-12 text-center contain">

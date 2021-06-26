@@ -1,14 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Ubuntu:ital,wght@0,300;1,300&display=swap');
+
 *:focus {
     outline: none;
-}
-
-a:hover {
-    text-decoration: none;
 }
 
 html {
     /*for smooth scrolling*/
     scroll-behavior: smooth;
+    /* overflow-x: auto; */
+    background-color: #e9ecef;
+}
+
+body{
+    /* font-family: 'Oswald', sans-serif; */
+    font-family: 'Ubuntu', sans-serif;
+}
+
+
+.container-auto-mid {
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+h1{
+    font-size: 3rem;
+}
+
+h3{
+    font-size: 1.7rem;
+    font-weight: bold;   
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 .otp {
@@ -25,6 +49,10 @@ html {
 
 .contact {
     padding: 20px 20px;
+}
+
+.navbar-expand-md .navbar-nav .nav-link {
+    padding-right: 4rem;
 }
 
 .navbar {
@@ -204,6 +232,10 @@ html {
     margin-bottom: 20px;
 }
 
+.main-image {
+    display: flex;
+}
+
 .description-figure {
     text-align: center;
 }
@@ -305,14 +337,10 @@ html {
     }
     .navbar-expand-md .navbar-nav .nav-link {
         padding-right: 0rem;
+        padding-left: 0rem;
+        min-width: 100%;
     }
-}
-
-@media screen and (min-width: 760px) {
-    .navbar-expand-md .navbar-nav .nav-link {
-        /* padding-right: .5rem; */
-        /* padding-left: 2rem; */
-        /* padding-left: .5rem; */
-        padding-right: 4rem;
+    .container-auto-mid {
+        max-width: 100%;
     }
 }

@@ -25,7 +25,11 @@ This template and all its child templates belongs to -
 Pragyanshu Rai
 
 -->
-<body onload="main();">
+{% if user.is_authenticated %}
+<body class="container-auto-mid" onload="main();">
+{% else %}
+<body class="container-auto-mid">
+{% endif %}
     <nav class="navbar navbar-expand-md">
         <a href="{% url 'home' %}" class="navbar-brand brand-name"><h1 style="color:white"><strong>CMS</strong></h1></a>
             <ul class="navbar-nav list-unstyled justify-content-end">
