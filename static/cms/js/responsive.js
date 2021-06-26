@@ -132,7 +132,7 @@ function startSession() {
     names = document.getElementsByClassName("index");
     console.log(names)
     if (names.length > 0) {
-        alert("Alert!\n\nIf the user is not active for three minutes, then the page will reload, and the server will automatically log the user out.");
+        alert("Alert!\n\nIf the user <is></is> not active for three minutes, then the page will reload, and the server will automatically log the user out.");
     }
 }
 
