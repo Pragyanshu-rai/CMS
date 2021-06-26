@@ -25,15 +25,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'y91q(1+69u)dda0(qgp1z^3wsezddf+_%vjfslfx9pw6=usfi('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '*',
+    ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    # 'whitenoise.runserver_nostatic',
+    'whitenoise.runserver_nostatic',
     'cms.apps.CmsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -138,4 +140,4 @@ MEDIA_ROOT = path.join(BASE_DIR, 'static/cms/media')
 
 
 # set session cookie default age
-SESSION_COOKIE_AGE = 10 #300 #five minutes
+SESSION_COOKIE_AGE = 3*60*1000 #five minutes

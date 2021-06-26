@@ -1,21 +1,10 @@
-from django.shortcuts import render, get_object_or_404, redirect
-
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
-
 from django.contrib import messages
-
 from .models import *
-
 from cmsUtils.mail import send_email
-
-from os import path
-
-from pathlib import Path
-
 from random import randint
-
 import datetime
-
 from .viewsUtil import modifySession
 
 # Create your views here.
@@ -89,6 +78,8 @@ def profile(request):
     modifySession(request)
 
     if request.user.is_authenticated == True:
+
+        stuff["show"] = False
 
         contact = Contact.objects.get(user=request.user)
 
@@ -335,6 +326,8 @@ def login(request):
             auth.login(request, user)
 
             request.session["user"] = user.id
+
+            stuff["show"] = True
 
             stuff['warning'] = False
 

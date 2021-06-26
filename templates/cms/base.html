@@ -26,7 +26,7 @@
 </head>
 <!--
 
-This template and all its child templates belongs to -
+This template and all its child templates belongs to :
 
 Pragyanshu Rai
 
@@ -39,8 +39,8 @@ Pragyanshu Rai
     <body class="container-auto-mid">
         {% endif %}
         <nav class="navbar navbar-expand-md">
-            <a href="#" class="navbar-brand brand-name" onclick="logoAnimate();">
-                <h1 style="color:white;"><strong>CMS</strong></h1>
+            <a href="#" class="navbar-brand brand-name" onclick="logoAnimate();" data-toggle="tooltip" dataplacement="right">
+                <h1 style="color:white;" title="Click to watch an amazing animation"><strong>CMS</strong></h1>
             </a>
             <ul class="navbar-nav list-unstyled justify-content-end">
                 {% if user.is_authenticated %}

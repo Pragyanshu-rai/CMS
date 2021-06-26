@@ -16,7 +16,7 @@ function sessionActive() {
         console.log("expired")
         location.reload()
         // after 20000 ms -> 20
-    }, 10000)
+    }, 3*60*1000)
 }
 
 // to restrict the date input max attribute to today
@@ -89,13 +89,20 @@ function togglePassword() {
     if (lock.classList.contains("fa-unlock") == true) {
         lock.classList.remove("fa-unlock");
         lock.classList.add("fa-lock");
+        lock.setAttribute("title", "Show Password");
+        console.log(lock.getAttribute("title"));
         pass.setAttribute("type", "password");
+        pass.classList.toggle('side-content');
+        pass.classList.toggle('side-header');
         pass.setAttribute("placeholder", "*********");
     }
     else {
         lock.classList.remove("fa-lock");
         lock.classList.add("fa-unlock");
+        lock.setAttribute("title", "Hide Password");
         pass.setAttribute("type", "text");
+        pass.classList.toggle('side-content');
+        pass.classList.toggle('side-header');
         pass.setAttribute("placeholder", "Password");
     }
 }
@@ -125,10 +132,11 @@ function startSession() {
     names = document.getElementsByClassName("index");
     console.log(names)
     if (names.length > 0) {
-        alert("Alert!\n\nIf the user is not active for five minutes, then the page will reload, and the server will automatically log the user out.");
+        alert("Alert!\n\nIf the user is not active for three minutes, then the page will reload, and the server will automatically log the user out.");
     }
 }
 
+// function to start logo animation when the cms logo is clicked
 function logoAnimate(){
 
     var logo = document.getElementsByClassName("cms_logo")[0];

@@ -128,10 +128,27 @@ a:hover {
     top: 50%;
 }
 
-.inputs {
-    border: 2px solid #1e90ff;
-    border-radius: 10px;
-    max-width: 95%;
+input{
+    border: none;
+    width: 90%;
+    padding-left: 10%;
+}
+
+.side-icon{
+    font-size: 1.7em;
+}
+
+.inputs, select {
+    margin: 0 auto;
+    border: none;
+    border-bottom: 2px solid #1e90ff;
+    /* border-radius: 10px; */
+    max-width: 70%;
+    padding: 0px;
+}
+
+.login-btn{
+    max-width: 50%;
 }
 
 .address-box {
@@ -337,7 +354,7 @@ a:hover {
         position: relative;
     }
     .space {
-        height: 10px;
+        height: 20px;
     }
     .navbar {
         margin-top: 0;
@@ -369,5 +386,11 @@ a:hover {
     }
     .container-auto-mid {
         max-width: 100%;
+    }
+    .card-title{
+        font-size: 2rem;
+    }
+    .login-btn{
+        max-width: 90%;
     }
 }
