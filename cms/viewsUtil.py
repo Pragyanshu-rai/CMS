@@ -6,6 +6,8 @@ def modifySession(request):
 
     if 'user' not in request.session:
 
+        auth.logout(request)
+
         return False
     
     request.session.modified = True
