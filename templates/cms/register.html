@@ -8,11 +8,11 @@
         
         <header class="row welcome-section">    
             <div class="col-lg-12 text-center contain">
-				<h1><strong>Create Your Account For Free!!</strong></h1>
+				{% comment %} <h1><strong>Create Your Account For Free!!</strong></h1> {% endcomment %}
             </div>
 	    </header>
             
-        <hr />
+        {% comment %} <hr /> {% endcomment %}
         
         <div class="container-fluid">
             <div class="row">
@@ -23,11 +23,11 @@
                         <div class="card-body kill-padding">
                             <div class="row">
                                 <div class="col-lg-6 ">
-                                    <img src="{% static 'cms/img/register.svg' %}" class="card-img-top gradient login" height="101.8%;"/>
+                                    <img src="{% static 'cms/img/register.svg' %}" class="card-img-top gradient login" height="100%;"/>
                                 </div>
                                 <div class="col-lg-6 text-center ">
                                     <h2 class="card-title"></h2>
-                                    <h1 class="card-title"><b><span class="dodger">Create Account</span></b></h1>
+                                    <h1 class="card-title"><b><span class="dodger">User Registration</span></b></h1>
                                     <form class="text-center" action="" method="POST">
                                         
                                         {% csrf_token %}
@@ -45,7 +45,7 @@
                                             <div class="col-lg-12 space"></div>
                                             <div class="col-lg-12 fa fa-intersex dodger side-header" title="Gender"></div>
                                             <div class="col-lg-12" title="Gender">
-                                                <select class="inputs text-center dodger side-header" name="gender">
+                                                <select class="text-center dodger side-header" name="gender">
                                                     <option class="side-content" value="Male">Male</option>
                                                     <option class="side-content" value="Female">Female</option>
                                                     <option class="side-content" value="Other">Other</option>
@@ -65,7 +65,6 @@
                                             <div class="col-lg-12 fas fa-address-card dodger side-header" title="Address"></div>
                                             <div class="col-lg-12" title="Address">
                                                 <textarea class="address-box dodger side-content" name='address' placeholder="Address" required/>
-    
                                                 </textarea>
                                             </div> 
                                             <div class="col-lg-12 space"></div> 
@@ -80,7 +79,7 @@
                                             </div>
                                             <div class="col-lg-12 space"></div> 
                                             <div class="col-lg-12">
-                                                <input class="btn btn-primary side-content" type='submit' value="Create Account" />
+                                                <input class="btn btn-primary side-content login-btn" type='submit' value="Create Account" />
                                             </div>
                                             <div class="col-lg-12 space-sm"></div>
                                             <div class="col-lg-12">
