@@ -165,6 +165,9 @@ a:hover {
 
 .cms_logo {
     margin-bottom: 10px;
+}
+
+.navbar-brand-animate{
     animation: 1.5s logo_animate;
 }
 
