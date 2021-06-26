@@ -23,6 +23,7 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
+    # path('session-exp/', views.sessionExpired, name='session-exp'),
 ]
 
 # this regex will match any url pattern and then render the 404 page.

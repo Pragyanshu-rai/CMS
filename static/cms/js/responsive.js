@@ -12,9 +12,11 @@ function main() {
 function sessionActive() {
     setTimeout(() => {
         // reload the page 
+        alert("Your Session Has Expired Please Login again!");
+        console.log("expired")
         location.reload()
         // after 20000 ms -> 20
-    }, 20000)
+    }, 10000)
 }
 
 // to restrict the date input max attribute to today
@@ -125,4 +127,18 @@ function startSession() {
     if (names.length > 0) {
         alert("Alert!\n\nIf the user is not active for five minutes, then the page will reload, and the server will automatically log the user out.");
     }
+}
+
+function logoAnimate(){
+
+    var logo = document.getElementsByClassName("cms_logo")[0];
+    var nba = 'navbar-brand-animate';
+    // if(logo.classList.contains(nba)){
+    //     logo.classList.remove(nba);
+    // }
+    logo.classList.add(nba);
+    setTimeout(()=>{
+        logo.classList.remove(nba);
+    },2000);
+    console.log("animate", logo);
 }

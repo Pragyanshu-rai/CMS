@@ -2,8 +2,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from django.contrib.auth.models import User, auth
 
-from django.http import HttpResponse
-
 from django.contrib import messages
 
 from .models import *
@@ -39,21 +37,6 @@ stuff['slots'] = [
     '11:30 AM'
     ]
 
-# not a regular view function
-#######
-
-def sessionValid(request):
-    
-    global stuff
-
-    if modifySession(request) == False:
-
-        stuff['warning'] = False
-        messages.info(request, 'Session Expired! Please Login Again.')
-        return redirect('home')
-
-#######
-
 def error(request, path):
     return render(request, 'cms/forbid.html')
 
@@ -62,11 +45,13 @@ def home(request):
 
     global stuff
 
+    print("home")
+
     if request.user.is_authenticated == True:
         
         print(request.user)
 
-        sessionValid(request)
+        modifySession(request)
 
         contact = Contact.objects.get(user_id=request.user.id)
 
@@ -100,10 +85,10 @@ def aboutme(request):
 
 
 def profile(request):
+        
+    modifySession(request)
 
     if request.user.is_authenticated == True:
-        
-        sessionValid(request)
 
         contact = Contact.objects.get(user=request.user)
 
@@ -126,9 +111,9 @@ def pastconsult(request):
 
     global stuff
 
-    if request.user.is_authenticated == True:
+    modifySession(request)
 
-        sessionValid(request)
+    if request.user.is_authenticated == True:
 
         contact = Contact.objects.get(user=request.user)
 
@@ -142,10 +127,10 @@ def pastconsult(request):
 def dashboard(request):
 
     global stuff
+        
+    modifySession(request)
 
     if request.user.is_authenticated == True:
-
-        sessionValid(request)
 
         contact = Contact.objects.get(user=request.user)
 
@@ -158,9 +143,9 @@ def pastbooking(request):
 
     global stuff
 
-    if request.user.is_authenticated == True:
+    modifySession(request)
 
-        sessionValid(request)
+    if request.user.is_authenticated == True:
 
         check_bookings(datetime.date.today())
 
@@ -179,9 +164,9 @@ def activebooking(request):
 
     global stuff
 
-    if request.user.is_authenticated == True:
+    modifySession(request)
 
-        sessionValid(request)
+    if request.user.is_authenticated == True:
 
         check_bookings(datetime.date.today())
 
@@ -218,9 +203,9 @@ def report(request):
 
     global stuff
 
-    if request.user.is_authenticated == True:
+    modifySession(request)
 
-        sessionValid(request)
+    if request.user.is_authenticated == True:
 
         contact = Contact.objects.get(user=request.user)
 
@@ -235,9 +220,9 @@ def doctors(request):
 
     global stuff
 
-    if request.user.is_authenticated == True:
+    modifySession(request)
 
-        sessionValid(request)
+    if request.user.is_authenticated == True:
 
         check_bookings(datetime.date.today())
 
@@ -260,9 +245,9 @@ def doctors(request):
 
 def booking(request):
 
-    if request.user.is_authenticated == True:
+    modifySession(request)
 
-        sessionValid(request)
+    if request.user.is_authenticated == True:
 
         doc = stuff.get('doctor', None)
 
@@ -427,7 +412,7 @@ def otp(request, uid=-1):
 
     if request.method == 'POST':
 
-        sessionValid(request)
+        modifySession(request)
 
         if OTP[request.user.id] == request.POST['otp']:
 
@@ -454,8 +439,6 @@ def forgot(request):
     global stuff
 
     if request.method == "POST":
-
-        sessionValid(request)
 
         email = request.POST['email']
 
@@ -492,8 +475,6 @@ def forgot(request):
 def change(request, uid=-1):
 
     global stuff
-    
-    sessionValid(request)
 
     if stuff['change'] == True:
 

@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Ubuntu:ital,wght@0,300;1,300&display=swap');
-
 *:focus {
     outline: none;
 }
@@ -11,24 +10,27 @@ html {
     background-color: #e9ecef;
 }
 
-body{
+body {
     /* font-family: 'Oswald', sans-serif; */
     font-family: 'Ubuntu', sans-serif;
 }
-
 
 .container-auto-mid {
     max-width: 90%;
     margin: 0 auto;
 }
 
-h1{
+h1 {
     font-size: 3rem;
 }
 
-h3{
+h3 {
     font-size: 1.7rem;
-    font-weight: bold;   
+    font-weight: bold;
+}
+
+a {
+    margin: 0 auto;
 }
 
 a:hover {
@@ -64,7 +66,8 @@ a:hover {
 
 .navbar-brand {
     margin-left: 10px;
-    /*cursor : not-allowed;*/
+    margin-top: 1rem;
+    /* cursor : not-allowed; */
 }
 
 .list-inline {
@@ -78,20 +81,39 @@ a:hover {
 
 .nav-link a {
     text-decoration: none;
-    cursor: pointer;
     color: white;
     margin-left: 20px;
     margin-right: 20px;
     text-align: center;
 }
 
-.nav-link a h3 {
-    border-bottom: 2px solid #1e90ff;
-    transition: 0.3s;
+.link {
+    cursor: pointer;
 }
 
-.nav-link a h3:hover {
-    border-bottom-color: white;
+.line {
+    min-height: 2rem;
+}
+
+.link {
+    margin: 0;
+}
+
+.line > div{
+    background-color: #ffffff;
+    width: 0.2rem;
+    height: 0rem;
+    margin: 0 auto;
+    transition: all 0.4s ease-in-out;
+}
+
+.link:hover > .line > div{
+    height: 1.8rem;
+}
+
+.nav-link a {
+    margin-left: 0%;
+    margin-right: 0%;
 }
 
 .side-header {
@@ -108,13 +130,15 @@ a:hover {
 
 .inputs {
     border: 2px solid #1e90ff;
-    border-radius: 50px;
+    border-radius: 10px;
     max-width: 95%;
 }
 
 .address-box {
     border: 2px solid #1e90ff;
     border-radius: 10px;
+    width : 80%;
+    max-width: 95%;
 }
 
 .container {
@@ -141,6 +165,9 @@ a:hover {
 
 .cms_logo {
     margin-bottom: 10px;
+}
+
+.navbar-brand-animate{
     animation: 1.5s logo_animate;
 }
 
@@ -196,7 +223,7 @@ a:hover {
 }
 
 .login {
-    border-radius: 20px;
+    border-radius: 0px 20px;
     margin-bottom: 0;
 }
 

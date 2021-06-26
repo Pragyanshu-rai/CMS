@@ -14,7 +14,7 @@ function sessionActive() {
         // reload the page 
         location.reload()
         // after 20000 ms -> 20
-    }, 20000)
+    }, 10000)
 }
 
 // to restrict the date input max attribute to today
