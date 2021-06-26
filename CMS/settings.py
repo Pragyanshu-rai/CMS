@@ -140,4 +140,10 @@ MEDIA_ROOT = path.join(BASE_DIR, 'static/cms/media')
 
 
 # set session cookie default age
+<<<<<<< HEAD
 SESSION_COOKIE_AGE = 1*60*1000 #five minutes
+||||||| 5296925
+SESSION_COOKIE_AGE = 3*60*1000 #five minutes
+=======
+SESSION_COOKIE_AGE = 3*60 #five minutes
+>>>>>>> dev
