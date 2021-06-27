@@ -57,7 +57,7 @@
                 <div class="col-lg-4">
                     <div class="card pointer">
                         {% if "null" not in contact.profile_pic %}
-                            <img src="{% static contact.profile_pic.url %}" class="card-img-top gradient" height="400px;" alt="profile picture">
+                            <img src="{% static contact.profile_pic.url %}" class="card-img-top" height="400px;" alt="profile picture">
                         {% else %}
                         {% if gender == "Male" %}
                             <img src="{% static 'cms/img/male_avatar.svg' %}" class="card-img-top gradient" height="400px;"/>

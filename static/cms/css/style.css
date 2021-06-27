@@ -380,7 +380,7 @@ input{
     padding-bottom: .6em;
 }
 
-h4{
+.modal-header h4{
     font-size: 1.8rem;
     color: #1e90ff;
 }
