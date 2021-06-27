@@ -136,6 +136,8 @@ class Contact(models.Model):
 
     phone = models.CharField(max_length=11)
 
+    profile_pic = models.ImageField(null=True, default="null", upload_to="profile_pics")
+
     def make_contact(self, user, gender, dob, address, phone):
         self.user = user
         self.gender = gender

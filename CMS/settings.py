@@ -36,7 +36,6 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     # 'whitenoise.runserver_nostatic',
-    'cms.apps.CmsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'cms.apps.CmsConfig',
     'cms_api.apps.CmsApiConfig',
 ]
 
@@ -114,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Calcutta' #'UTC'
 
 USE_I18N = True
 
@@ -136,7 +136,7 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = path.join(BASE_DIR, 'all_static')
 
-MEDIA_ROOT = path.join(BASE_DIR, 'static/cms/media')
+MEDIA_ROOT = path.join(BASE_DIR, STATIC_URL+MEDIA_URL)#'static/cms/media')
 
 
 # set session cookie default age

@@ -16,7 +16,7 @@ function sessionActive() {
         console.log("expired")
         location.reload()
         // after 20000 ms -> 20
-    }, 3*60*1000)
+    }, (3*60*1000)-10)
 }
 
 // to restrict the date input max attribute to today

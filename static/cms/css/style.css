@@ -353,6 +353,51 @@ input{
     height: 15px;
 }
 
+.top{
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+}
+
+.card-icon{
+    font-size: 2rem;
+    width: 20%;
+    margin: 0 auto;
+}
+
+.card-title-prof{
+    font-size: 2rem;
+    font-weight: 600;
+    padding-left: 0.9em;
+    padding-bottom: .6em;
+    width: 75%;
+}
+
+.card-text-prof{
+    font-size: 1.15rem;
+    font-weight: 600;
+    padding-left: 1.5em;
+    padding-bottom: .6em;
+}
+
+h4{
+    font-size: 1.8rem;
+    color: #1e90ff;
+}
+
+.modal-body input{
+    border-bottom: 1px solid #666;
+    width: 100%;
+    margin: 0 auto;
+    padding-left: 20%;
+    color: #1e90ff;
+    font-size: 1.4rem;
+}
+
+.modal-body{
+    font-size: 1.6rem;
+}
+
 @media(max-width:760px) {
     /* mall screens will not have fixed bottom */
     .fixed-bottom {
@@ -391,9 +436,6 @@ input{
     }
     .container-auto-mid {
         max-width: 100%;
-    }
-    .card-title{
-        font-size: 2rem;
     }
     .login-btn{
         max-width: 90%;

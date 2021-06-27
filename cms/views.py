@@ -2,11 +2,12 @@ from cmsUtils.sms import sendSMS
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from .models import *
 from cmsUtils.mail import send_email
 from random import randint
 import datetime
 from .viewsUtil import modifySession
+from .models import *
+from .forms import updateContact
 
 # Create your views here.
 
@@ -19,13 +20,13 @@ OTP = dict()
 stuff['change'] = False
 
 stuff['slots'] = [
-    '09:00 AM', 
-    '09:30 AM',  
-    '10:00 AM', 
-    '10:30 AM', 
-    '11:00 AM', 
+    '09:00 AM',
+    '09:30 AM',
+    '10:00 AM',
+    '10:30 AM',
+    '11:00 AM',
     '11:30 AM'
-    ]
+]
 
 body = """
 Dear Customer,
@@ -44,6 +45,7 @@ Sincerely,
 Clinic Management System (CMS)
     """
 
+
 def error(request, path):
     return render(request, 'cms/forbid.html')
 
@@ -55,31 +57,15 @@ def home(request):
     print("home")
 
     if request.user.is_authenticated == True:
-        
+
         print(request.user)
 
         modifySession(request)
 
-        contact = Contact.objects.get(user_id=request.user.id)
+        stuff['fresh-login'] = True
 
-        stuff['address'] = contact.address
-
-        stuff['number'] = contact.phone
-
-        stuff['gender'] = contact.gender
-
-        stuff['dob'] = contact.dob
-
-        stuff['age'] = age(to_date(str(contact.dob)))
-
-        # for developers and testers
-        print(stuff)
-
-        messages.info(request, 'Logged in ')
-
-        stuff['warning'] = False
-
-        return render(request, 'cms/profile.html', stuff)
+        # return render(request, 'cms/profile.html', stuff)
+        return redirect('profile')
 
     return render(request, 'cms/index.html', stuff)
 
@@ -92,24 +78,45 @@ def aboutme(request):
 
 
 def profile(request):
-        
+
+    global stuff
+
     modifySession(request)
 
     if request.user.is_authenticated == True:
 
-        stuff["show"] = False
+        stuff['contact'] = Contact.objects.get(user=request.user)
+        stuff['age'] = age(to_date(str(stuff['contact'].dob)))
 
-        contact = Contact.objects.get(user=request.user)
+        if request.method == "POST":
 
-        stuff['address'] = contact.address
+            check = updateContact(request.POST, request.FILES, instance=stuff['contact'])
+            if check.is_valid():
+                
+                check.save()
+                stuff['warning'] = False
+                messages.info(request, "  User Profile Updated Successfully")
+            
+            else:
 
-        stuff['number'] = contact.phone
+                stuff['warning'] = True
+                messages.info(request, "  User Profile Update Failed")
 
-        stuff['gender'] = contact.gender
+        else:
 
-        stuff['dob'] = contact.dob
+            fresh = stuff.get("fresh-login", False)
 
-        stuff['age'] = age(to_date(str(contact.dob)))
+            if fresh:
+
+                messages.info(request, "  logged in")
+                stuff['warning'] = False
+                stuff['fresh-login'] = False
+
+            else:
+                stuff['show'] = False
+        
+        form = updateContact(instance=stuff['contact'])
+        stuff['form'] = form
 
         return render(request, 'cms/profile.html', stuff)
 
@@ -136,7 +143,7 @@ def pastconsult(request):
 def dashboard(request):
 
     global stuff
-        
+
     modifySession(request)
 
     if request.user.is_authenticated == True:
@@ -179,7 +186,7 @@ def activebooking(request):
 
         check_bookings(datetime.date.today())
 
-        contact = Contact.objects.get(user_id=request.user.id) 
+        contact = Contact.objects.get(user_id=request.user.id)
 
         stuff['bookings'] = Booking.objects.filter(contact=contact)
 
@@ -280,10 +287,10 @@ def booking(request):
             if result != None:
 
                 if result == "Doc":
-                    messages.info(request, "This Slot Is Not Available!")
+                    messages.info(request, "  This Slot Is Not Available!")
                 else:
                     messages.info(
-                        request, "You Already Have An Appointment In This Slot And Date!")
+                        request, "  You Already Have An Appointment In This Slot And Date!")
 
                 stuff['warning'] = True
 
@@ -291,7 +298,7 @@ def booking(request):
 
             stuff['warning'] = False
 
-            messages.info(request, "Slot Booked")
+            messages.info(request, "  Slot Booked")
 
             booking = Booking()
 
@@ -333,7 +340,7 @@ def login(request):
 
         if user == None:
 
-            messages.info(request, 'Invalid Login Details')
+            messages.info(request, '  Invalid Login Details')
 
             stuff['warning'] = True
 
@@ -386,7 +393,7 @@ def register(request):
 
         if password != confirm:
 
-            messages.info(request, 'Password does not match')
+            messages.info(request, '  Password does not match')
 
             stuff['warning'] = True
 
@@ -394,18 +401,19 @@ def register(request):
 
         if User.objects.filter(email=email).exists():
 
-            messages.info(request, 'User Exists')
+            messages.info(request, '  User Exists')
 
             stuff['warning'] = True
 
             return redirect('register')
 
-        user = User.objects.create_user(username=name+"_"+email, password=password, email=email, first_name=name)
+        user = User.objects.create_user(
+            username=name+"_"+email, password=password, email=email, first_name=name)
         # user.save()
         contact = Contact()
         contact.make_contact(user, gender, dob, address, phone)
         contact.save()
-        messages.info(request, 'User Registered')
+        messages.info(request, '  User Registered')
 
         stuff['warning'] = False
 
@@ -429,7 +437,7 @@ def otp(request, uid=-1):
 
         if OTP[uid] == request.POST['otp']:
 
-            messages.info(request, 'Correct OTP')
+            messages.info(request, '  Correct OTP')
 
             stuff['warning'] = False
 
@@ -438,7 +446,7 @@ def otp(request, uid=-1):
             return redirect('change', uid=uid)
         else:
 
-            messages.info(request, 'Invalid - OTP')
+            messages.info(request, '  Invalid - OTP')
 
             stuff['warning'] = True
 
@@ -456,19 +464,19 @@ def forgot(request):
         email = request.POST['email']
 
         phone = request.POST['contact']
-        
+
         try:
 
             if len(email) > 1:
 
                 user = User.objects.get(email=email)
 
-            else :
+            else:
 
                 con = Contact.objects.get(phone=phone)
 
         except:
-            messages.info(request, 'User not found!')
+            messages.info(request, '  User not found!')
 
             stuff['warning'] = True
 
@@ -479,23 +487,24 @@ def forgot(request):
         body = body.format(otp_otp, str(datetime.datetime.now()).split(".")[0])
 
         if len(email) > 1:
-        
+
             print("Email - ", user.email)
             send_email("OTP", otp_otp, email)
-            messages.info(request, 'An OTP is sent to your regietered email id. ')
+            messages.info(
+                request, '  An OTP is sent to your regietered email id. ')
             uid = user.id
             OTP[uid] = otp_otp
 
-        else :
-        
+        else:
+
             print("SMS - ", con.phone)
             msg = sendSMS(body=body, to="+91"+con.phone)
             messages.info(request, msg)
-            
+
             if 'fail' in msg:
                 stuff['warning'] = True
                 return render(request, 'cms/forgot.html', stuff)
-            
+
             uid = con.user_id
             OTP[uid] = otp_otp
 
@@ -530,7 +539,7 @@ def change(request, uid=-1):
 
         if passw != confirm:
 
-            messages.info(request, 'Password does not match')
+            messages.info(request, '  Password does not match')
 
             stuff['warning'] = True
 
@@ -542,7 +551,7 @@ def change(request, uid=-1):
 
         user.save()
 
-        messages.info(request, 'Password is changed')
+        messages.info(request, '  Password is changed')
 
         stuff['warning'] = False
 
@@ -557,7 +566,7 @@ def logout(request):
 
     auth.logout(request)
 
-    messages.info(request, 'User Logged Out ')
+    messages.info(request, '  User Logged Out ')
 
     stuff['warning'] = False
 

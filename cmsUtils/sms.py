@@ -16,8 +16,8 @@ def sendSMS(body, to=environ["MY_PHONE_NUMBER"]):
     except Exception as ex:
         ex = "[SERVER-ERROR] internal server error -{} \nfailed to send sms!".format(ex)
         print(ex)
-        return "[SERVER-ERROR] - failed to send sms!"
+        return "  [SERVER-ERROR] - failed to send sms!"
 
 
     print("SMS SENT!")
-    return 'An OTP is sent to your regietered mobile number.'
+    return '  An OTP is sent to your regietered mobile number.'
