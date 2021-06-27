@@ -132,8 +132,31 @@ function startSession() {
     names = document.getElementsByClassName("index");
     console.log(names)
     if (names.length > 0) {
-        alert("Alert!\n\nIf the user <is></is> not active for three minutes, then the page will reload, and the server will automatically log the user out.");
+        alert("Alert!\n\nIf the user is inactive for three minutes, then the page will reload, and the server will automatically log the user out.");
     }
+}
+
+// function alerts the user if the input is not valid
+function forgotValidate(){
+
+    check = document.getElementById('forgot-validate');
+    console.log(check);
+
+    if(check != null){
+        
+        email = document.getElementById('email');
+        contact = document.getElementById('contact');
+        
+        console.log(email.value);
+
+        if(email.value === "" && contact.value === ""){
+            alert("Please give your email id or contact number!\nMust give atleast one of the two!");
+        }
+        else{
+            document.getElementsByTagName('form')[0].submit();
+        }
+    }
+
 }
 
 // function to start logo animation when the cms logo is clicked

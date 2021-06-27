@@ -18,8 +18,8 @@ def cancel_booking(booking_id):
         return "No Such Booking"
 
     his = History()
-    his.add_to_history(booking.id, booking.patient_name, booking.doctor_name,
-                       booking.user_id, booking.doctor_id, booking.booking_date,  booking.time_slot)
+    his.add_to_history(booking.id, booking.contact.user.username, booking.doctor.name,
+                       booking.contact.user_id, booking.doctor_id, booking.booking_date,  booking.time_slot)
     his.reason = "Canceled"
     his.save()
 

@@ -3,11 +3,11 @@
 {% load static %}
 
 {% block breadcrumbs %}
-{% if user.is_authenticated %}
+{% comment %} {% if user.is_authenticated %}
 <li class="breadcrumb-item"><a href="{% url 'profile' %}">Profile</a></li>
-{% else %}
+{% else %} {% endcomment %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-{% endif %}
+{% comment %} {% endif %} {% endcomment %}
 {% endblock %}
 
 {% block main_block %}

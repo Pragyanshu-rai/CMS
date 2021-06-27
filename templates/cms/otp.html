@@ -6,6 +6,10 @@
             {% block breadcrumbs %}
                 {% if user.is_authenticated %}
                 <li class="breadcrumb-item"><a href="{% url 'profile' %}">Profile</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'forgot' %}">Change</a></li>
+                <li class="breadcrumb-item">OTP</li>
+                {% else %}
+                <li class="breadcrumb-item"><a href="{% url 'profile' %}">Login</a></li>
                 <li class="breadcrumb-item"><a href="{% url 'forgot' %}">Forgot</a></li>
                 <li class="breadcrumb-item">OTP</li>
                 {% endif %}

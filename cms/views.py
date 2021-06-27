@@ -1,3 +1,4 @@
+from cmsUtils.sms import sendSMS
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
@@ -25,6 +26,23 @@ stuff['slots'] = [
     '11:00 AM', 
     '11:30 AM'
     ]
+
+body = """
+Dear Customer,
+
+Thank you for being associated with Clinic Management System (CMS).
+
+You have requested for password change for which One Time Password (OTP):- {} has been generated at {}.
+
+In case you have not requested for password change you can write an email at "noreply.services.2001@gmail.com".
+
+Disclaimer
+
+We recommend you do not share this with anyone to prevent fraudulent transactions.
+
+Sincerely,
+Clinic Management System (CMS)
+    """
 
 def error(request, path):
     return render(request, 'cms/forbid.html')
@@ -399,7 +417,7 @@ def register(request):
 
 def otp(request, uid=-1):
 
-    global stuff
+    global stuff, OTP
 
     print("uid =", uid)
 
@@ -407,7 +425,9 @@ def otp(request, uid=-1):
 
         modifySession(request)
 
-        if OTP[request.user.id] == request.POST['otp']:
+        print(OTP)
+
+        if OTP[uid] == request.POST['otp']:
 
             messages.info(request, 'Correct OTP')
 
@@ -429,34 +449,57 @@ def otp(request, uid=-1):
 
 def forgot(request):
 
-    global stuff
+    global stuff, OTP, body
 
     if request.method == "POST":
 
         email = request.POST['email']
 
+        phone = request.POST['contact']
+        
         try:
-            user = User.objects.get(email=email)
+
+            if len(email) > 1:
+
+                user = User.objects.get(email=email)
+
+            else :
+
+                con = Contact.objects.get(phone=phone)
+
         except:
-            messages.info(request, 'User not register')
+            messages.info(request, 'User not found!')
 
             stuff['warning'] = True
 
             return render(request, 'cms/forgot.html', stuff)
 
-        print("Email - ", user.email)
-
-        uid = user.id
-
         otp_otp = str(randint(100000, 999999))
 
-        OTP[request.user.id] = otp_otp
+        body = body.format(otp_otp, str(datetime.datetime.now()).split(".")[0])
+
+        if len(email) > 1:
+        
+            print("Email - ", user.email)
+            send_email("OTP", otp_otp, email)
+            messages.info(request, 'An OTP is sent to your regietered email id. ')
+            uid = user.id
+            OTP[uid] = otp_otp
+
+        else :
+        
+            print("SMS - ", con.phone)
+            msg = sendSMS(body=body, to="+91"+con.phone)
+            messages.info(request, msg)
+            
+            if 'fail' in msg:
+                stuff['warning'] = True
+                return render(request, 'cms/forgot.html', stuff)
+            
+            uid = con.user_id
+            OTP[uid] = otp_otp
 
         print(otp_otp)
-
-        send_email("OTP", otp_otp, email)
-
-        messages.info(request, 'OTP is sent to your regietered email id ')
 
         stuff['warning'] = False
 

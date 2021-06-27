@@ -40,7 +40,7 @@
                     <div class="card pointer">
                         <img src="{% static 'cms/img/nodata.svg' %}" class="card-img-top gradient" height="400px"/>
                         <div class="card-body">
-                            <p class="card-title pointer side-content" ><b>No Reports Found!</b></p>
+                            <p class="card-title pointer side-content" ><b>No Appointments!</b></p>
                         </div>
                     </div>
                 </div>  
@@ -62,8 +62,8 @@
                                     </b></p>
                                 </div>
                                 <div class="modal-footer text-center">
-                                    <button data-dismiss="modal" class="btn btn-success">NO</button>
-                                    <input type="submit" class="btn btn-danger" value="YES" />
+                                    <button data-dismiss="modal" class="btn btn-success modal-inp">NO</button>
+                                    <input type="submit" class="btn btn-danger modal-inp" value="YES" />
                                 </div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                                 <th>Select</th>
                                 {% endif %}
                                 <th>Booking Id</th>
-                                <th>Patient</th>
+                                {% comment %} <th>Patient</th> {% endcomment %}
                                 <th>Doctor</th>
                                 <th>Date</th>
                                 <th>Time slot</th>
@@ -97,15 +97,15 @@
                         {% endif %}
                                 {% if "Past" in page %}
                                 <td>{{booking.book_no}}</td>
-                                <td>{{booking.contact.user.username}}</td>
-                                <td>{{booking.doctor.name}}</td>
+                                {% comment %} <td>{{booking.patient_name}}</td> {% endcomment %}
+                                <td>{{booking.doctor_name}}</td>
                                 <td>{{booking.book_date}}</td>
                                 <td>{{booking.book_slot}}</td>
                                 <td>{{booking.reason}}</td>
                                 {% else %}
                                 <td><input class="checkbox" type="checkbox" name="book_no" value="{{booking.id}}"/></td>
                                 <td>{{booking.id}}</td>
-                                <td>{{booking.contact.user.username}}</td>
+                                {% comment %} <td>{{booking.contact.user.username}}</td> {% endcomment %}
                                 <td>{{booking.doctor.name}}</td>
                                 <td>{{booking.booking_date}}</td>
                                 <td>{{booking.time_slot}}</td>

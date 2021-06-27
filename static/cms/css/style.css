@@ -134,6 +134,12 @@ input{
     padding-left: 10%;
 }
 
+.modal-inp{
+    width: 45%;
+    padding: none;
+    margin: 0 auto;
+}
+
 .side-icon{
     font-size: 1.7em;
 }
@@ -338,18 +344,17 @@ input{
     max-width: 100%;
 }
 
+.hold{
+    min-width: 65%;
+    min-height: 2rem;
+}
+
 .space-sm {
     height: 15px;
 }
 
-/*
-#pass{
-    width : 60%;
-}
-*/
-
 @media(max-width:760px) {
-    /* small screens will not have fixed bottom */
+    /* mall screens will not have fixed bottom */
     .fixed-bottom {
         position: relative;
     }

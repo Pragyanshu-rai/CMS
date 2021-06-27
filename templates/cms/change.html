@@ -5,10 +5,13 @@
             {% block breadcrumbs %}
                 {% if user.is_authenticated %}
                 <li class="breadcrumb-item"><a href="{% url 'profile' %}">Profile</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'forgot' %}">Change</a></li>
+                {% else %}
+                <li class="breadcrumb-item"><a href="{% url 'profile' %}">Profile</a></li>
                 <li class="breadcrumb-item"><a href="{% url 'forgot' %}">Forgot</a></li>
+                {% endif %}
                 <li class="breadcrumb-item">OTP</li>
                 <li class="breadcrumb-item">Change</li>
-                {% endif %}
             {% endblock %}
     
 {% block main_block %}
