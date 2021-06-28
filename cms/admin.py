@@ -20,11 +20,11 @@ admin.site.register(Reports)
 
 # changing the admin site header
 
-admin.site.site_header = "Clinic Management System Administrator"
+admin.site.site_header = "CMS Admin"
 
 admin.site.site_title = "CMS Administrator"
 
-admin.site.index_title = "CMS Administrator"
+admin.site.index_title = "Clinic Management System Administrator"
 
 
 # removing the default group model from the admin site

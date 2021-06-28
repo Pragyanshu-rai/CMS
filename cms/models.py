@@ -65,7 +65,7 @@ def check_bookings(today):
     booking = Booking.objects.all()
 
     for index in range(len(booking)):
-        if booking[index].booking_date < today:
+        if booking[index].booking_date <= today:
             his = History()
             his.add_to_history(booking[index].id, booking[index].contact.user.username, booking[index].doctor.name,
                                booking[index].contact.user_id, booking[index].doctor_id, booking[index].booking_date,  booking[index].time_slot)

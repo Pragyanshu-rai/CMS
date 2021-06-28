@@ -5,3 +5,4 @@ djangorestframework-simplejwt
 PyJWT
 whitenoise
 pillow
+https://github.com/darklow/django-suit/tarball/v2

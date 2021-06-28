@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'y91q(1+69u)dda0(qgp1z^3wsezddf+_%vjfslfx9pw6=usfi('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True    
+DEBUG = False #True in development
 
 ALLOWED_HOSTS = [
     '*',
@@ -35,7 +35,8 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    # 'whitenoise.runserver_nostatic',
+    'whitenoise.runserver_nostatic', # comment this in development
+    # 'CMS.apps.SuitsConfig', # comment this in production
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
