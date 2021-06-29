@@ -14,8 +14,9 @@ def cancel_booking(booking_id):
 
     try:
         booking = Booking.objects.get(id=booking_id)
-    except:
-        return "No Such Booking"
+    except Exception as ex:
+        print("[MODLE_ERROR]", ex)
+        return "oops"
 
     his = History()
     his.add_to_history(booking.id, booking.contact.user.username, booking.doctor.name,
@@ -24,6 +25,7 @@ def cancel_booking(booking_id):
     his.save()
 
     booking.delete()
+    return ""
 
 
 def to_date(date):
@@ -65,7 +67,7 @@ def check_bookings(today):
     booking = Booking.objects.all()
 
     for index in range(len(booking)):
-        if booking[index].booking_date <= today:
+        if booking[index].booking_date < today:
             his = History()
             his.add_to_history(booking[index].id, booking[index].contact.user.username, booking[index].doctor.name,
                                booking[index].contact.user_id, booking[index].doctor_id, booking[index].booking_date,  booking[index].time_slot)
@@ -100,6 +102,8 @@ class Doctor(models.Model):
     domain = models.CharField(max_length=30)
 
     office_number = models.CharField(max_length=11)
+
+    profile_pic = models.ImageField(null=True, default="null", upload_to="doctor_profile")
 
     """slots = models.CharField(max_length=7, default="")
     
@@ -206,7 +210,7 @@ class Reports(models.Model):
             "doctor": self.doctor.get_dict(),
             "lab": self.lab,
             "date_of_report": self.date_of_report,
-            "report_status": self.report_status
+            "report_genrated": self.report_status,
         }
 
 

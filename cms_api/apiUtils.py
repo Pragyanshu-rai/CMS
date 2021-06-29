@@ -1,17 +1,26 @@
 from django.contrib.auth.models import User
-from cms.models import to_date
+# from cms.models import to_date
+from cmsUtils.imgToByte import toByteString
 
+
+base = "all_static"
 
 # function takes in model object list and returns dict of items with key as index and items as objects item dict
-def models_to_dict(models):
+def models_to_dict(models, report=False):
 
-    # data = dict()
-    # index = 1
+    global base
     data=list()
 
     for model in models:
         # data["Record "+str(index)] = model.get_dict()
-        data.append(model.get_dict())
+        temp = model.get_dict()
+        if report == True:
+
+            if model.report_status == True:
+                temp['report'] = model.report_img.name
+                temp["report-image"] = toByteString(base+model.report_img.url)
+
+        data.append(temp)
 
     return data
 

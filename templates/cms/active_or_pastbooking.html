@@ -58,8 +58,8 @@
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
-                                    <p><b>
-                                        Are you sure that you want to cancel your appointment(s)?
+                                    <p><b id="appointment-text">
+                                        Are you sure that you want to cancel your appointment?
                                     </b></p>
                                 </div>
                                 <div class="modal-footer text-center">
@@ -73,9 +73,9 @@
                 <div class="col-lg-12">
                     <table class="table table-responsive-md table-hover">
                         <thead class="dodger-bg">
-                            <tr>
+                            <tr onclick="selectAll();">
                                 {% if "Past" not in page %}
-                                <th>Select</th>
+                                <th>Select<input id="selectall" type="checkbox"/></th>
                                 {% endif %}
                                 <th>Booking Id</th>
                                 {% comment %} <th>Patient</th> {% endcomment %}
@@ -91,10 +91,10 @@
                         {% for booking in bookings %}
                         {% if "Past" in page %}
                             {% if "Cancel" in booking.reason %}
-                            <tr class="table-danger" onclick="select()">
+                            <tr class="table-danger">
                             {% endif %}
                         {% else %}
-                            <tr onclick="select()">
+                            <tr onclick="select(all=false);" class="select-bit">
                         {% endif %}
                                 {% if "Past" in page %}
                                 <td>{{booking.book_no}}</td>

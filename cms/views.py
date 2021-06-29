@@ -1,15 +1,13 @@
-from cmsUtils.sms import sendSMS
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from cmsUtils.mail import send_email
 from random import randint
 import datetime
-from .viewsUtil import modifySession
-from .models import *
-from .forms import updateContact
-
-# Create your views here.
+from cms.viewsUtil import modifySession
+from cms.models import *
+from cms.forms import updateContact
+from cmsUtils.mail import sendEmail
+from cmsUtils.sms import sendSMS
 
 user = "pranshu: 12, user_test: user1 "
 
@@ -189,6 +187,7 @@ def activebooking(request):
         contact = Contact.objects.get(user_id=request.user.id)
 
         stuff['bookings'] = Booking.objects.filter(contact=contact)
+        print(stuff)
 
         stuff['page'] = "Active Appointments"
 
@@ -271,18 +270,13 @@ def booking(request):
 
             return redirect('doctors')
 
-        print(stuff['doctor'].id)
-
         if request.method == 'POST':
 
             date = request.POST['date']
-
             slot = request.POST['slot']
+            print("date", date, ", Slot-", slot)
 
-            print(slot)
-
-            result = has_duplicate(
-                date, slot, stuff['doctor'].id, request.user.id)
+            result = has_duplicate(date, slot, stuff['doctor'].id, request.user.id)
 
             if result != None:
 
@@ -489,7 +483,7 @@ def forgot(request):
         if len(email) > 1:
 
             print("Email - ", user.email)
-            send_email("OTP", otp_otp, email)
+            sendEmail("OTP", otp_otp, email)
             messages.info(
                 request, '  An OTP is sent to your regietered email id. ')
             uid = user.id

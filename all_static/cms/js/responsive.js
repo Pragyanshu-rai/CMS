@@ -3,7 +3,7 @@
 function main() {
     console.log("in main");
     startSession();
-    select();
+    // select();
     show_date();
     sessionActive();
 }
@@ -16,7 +16,7 @@ function sessionActive() {
         console.log("expired")
         location.reload()
         // after 20000 ms -> 20
-    }, (3*60*1000)-10)
+    }, (3 * 60 * 1000))
 }
 
 // to restrict the date input max attribute to today
@@ -67,18 +67,39 @@ function page_top() {
     document.documentElement.scrollTop = 0;
 }
 
-//for table checkbox
-function select() {
-    var ch_box = document.getElementsByClassName('checkbox');
-    for (i = 0; i < ch_box.length; i++) {
-        if (ch_box[i].checked == true) {
-            var tr = document.getElementsByTagName('tr')[i + 1];
-            tr.classList.add("table-danger");
+//for table checkbox responsiveness
+function select(all = false) {
+    var rows = document.querySelectorAll('.select-bit');
+    var count = 0;
+    if (all == true) { 
+        rows.forEach(row => {
+            row.getElementsByClassName('checkbox')[0].checked = true;
+        });
+    }
+    rows.forEach(row => {
+        if (row.getElementsByClassName('checkbox')[0].checked == true) {
+            row.classList.add('table-danger');
+            count++;
         }
         else {
-            var tr = document.getElementsByTagName('tr')[i + 1];
-            tr.classList.remove("table-danger");
+            row.classList.remove('table-danger');
         }
+    });
+    var text = document.getElementById('appointment-text');
+    if (text != undefined) {
+        if (count > 1) {
+            console.log(text.innerText = "Are you sure that you want to cancel your appointments?");
+        }
+        else {
+            console.log(text.innerText = "Are you sure that you want to cancel your appointment?");
+        }
+    }
+}
+
+function selectAll() {
+    var selects = document.getElementById('selectall');
+    if (selects.checked == true) {
+        select(all=true);
     }
 }
 
@@ -94,7 +115,6 @@ function togglePassword() {
         pass.setAttribute("type", "password");
         pass.classList.toggle('side-content');
         pass.classList.toggle('side-header');
-        pass.setAttribute("placeholder", "*********");
     }
     else {
         lock.classList.remove("fa-lock");
@@ -103,7 +123,6 @@ function togglePassword() {
         pass.setAttribute("type", "text");
         pass.classList.toggle('side-content');
         pass.classList.toggle('side-header');
-        pass.setAttribute("placeholder", "Password");
     }
 }
 
@@ -137,22 +156,22 @@ function startSession() {
 }
 
 // function alerts the user if the input is not valid
-function forgotValidate(){
+function forgotValidate() {
 
     check = document.getElementById('forgot-validate');
     console.log(check);
 
-    if(check != null){
-        
+    if (check != null) {
+
         email = document.getElementById('email');
         contact = document.getElementById('contact');
-        
+
         console.log(email.value);
 
-        if(email.value === "" && contact.value === ""){
+        if (email.value === "" && contact.value === "") {
             alert("Please give your email id or contact number!\nMust give atleast one of the two!");
         }
-        else{
+        else {
             document.getElementsByTagName('form')[0].submit();
         }
     }
@@ -160,7 +179,7 @@ function forgotValidate(){
 }
 
 // function to start logo animation when the cms logo is clicked
-function logoAnimate(){
+function logoAnimate() {
 
     var logo = document.getElementsByClassName("cms_logo")[0];
     var nba = 'navbar-brand-animate';
@@ -168,8 +187,8 @@ function logoAnimate(){
     //     logo.classList.remove(nba);
     // }
     logo.classList.add(nba);
-    setTimeout(()=>{
+    setTimeout(() => {
         logo.classList.remove(nba);
-    },2000);
+    }, 2000);
     console.log("animate", logo);
 }

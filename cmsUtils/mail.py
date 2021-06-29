@@ -5,7 +5,7 @@ from email.message import EmailMessage
 # import random
 
 
-def send_email(subject, body, to):
+def sendEmail(subject, body, to):
 
 
     # create EmailMessage object

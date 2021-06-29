@@ -54,7 +54,7 @@ a:hover {
 }
 
 .navbar-expand-md .navbar-nav .nav-link {
-    padding-right: 4rem;
+    padding-right: 2.3rem;
 }
 
 .navbar {
@@ -396,6 +396,14 @@ input{
 
 .modal-body{
     font-size: 1.6rem;
+}
+
+#selectall{
+    width: 20%;
+}
+
+tr{
+    cursor: pointer;
 }
 
 @media(max-width:760px) {

@@ -1,7 +1,6 @@
 Django
 django-filter
 djangorestframework
-djangorestframework-simplejwt
 PyJWT
 whitenoise
 pillow

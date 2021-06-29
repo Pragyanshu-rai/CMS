@@ -25,7 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'y91q(1+69u)dda0(qgp1z^3wsezddf+_%vjfslfx9pw6=usfi('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False #True in development
+# DEBUG = True in development
+DEBUG = False 
 
 ALLOWED_HOSTS = [
     '*',
@@ -43,14 +44,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
+    'rest_framework', # for rest api building
+    'rest_framework.authtoken', # for token authentication creates a model for tokens
     'cms.apps.CmsConfig',
     'cms_api.apps.CmsApiConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # for serving static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
