@@ -6,11 +6,11 @@ from twilio.rest import Client
 def sendSMS(body, to=environ["MY_PHONE_NUMBER"]):
 
     try :
-        client = Client(environ["MY_ACC_SID"], environ["MY_AUTH_TOKEN"])
+        client = Client(environ["TWILIO_ACC_SID"], environ["TWILIO_AUTH_TOKEN"])
 
         client.messages.create(
             to=to,
-            from_="+18505839086",
+            from_=environ["TWILIO_NUMBER"],
             body=body
         )
     except Exception as ex:

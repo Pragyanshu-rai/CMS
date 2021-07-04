@@ -1,12 +1,8 @@
 import smtplib
-import datetime
-from email.message import EmailMessage  
-
-# import random
-
+from email.message import EmailMessage
+from os import environ
 
 def sendEmail(subject, body, to):
-
 
     # create EmailMessage object
     message = EmailMessage()
@@ -14,23 +10,21 @@ def sendEmail(subject, body, to):
     message.set_content(body)
     message['subject'] = subject
     message['to'] = to
-    
-    sender = "noreply.services.2001@gmail.com"
-    password = "cxzifunjhbptvsml"
-    
+
+    sender = environ["SYSTEM_EMAIL"]
+    password = environ["SYSTEM_EMAIL_PASSKEY"]
+
     message['from'] = sender
-    try :
-        
-        server = smtplib.SMTP("smtp.gmail.com", 587)
+    try:
+
+        server = smtplib.SMTP(environ["SYSTEM_EMAIL_HOST"], environ["SYSTREM_EMAIL_PORT"])
         server.starttls()
         server.login(sender, password)
         # send mail
         server.send_message(message)
 
         server.quit()
-    
+
     except:
 
         server.quit()
-
-

@@ -43,7 +43,7 @@
                 {% for report in reports %}
                     <div class="col-lg-4">
                         <div class="card pointer">
-                            <img src="{% static report.report_img.url %}" class="card-img-top" height="300px;"/>
+                            <img src="{{ report.report_img.url }}" class="card-img-top" height="300px;"/>
                         <div class="card-body">
                             <h2 class="card-title pointer" ><b>Lab: </b>{{report.lab}}</h2>
                             <p class="card-text bio pointer" ><b>Referred by: </b>{{report.doctor.name}}</p>
@@ -52,7 +52,7 @@
                             <p class="card-text bio pointer" ><b>status: </b>Pending</p>
                             {% else %}
                             <p class="card-text bio pointer" ><b>status: </b>Approved</p>
-                            <p class="card-text bio pointer" ><b><a href="{% static report.report_img.url %}" class="fa fa-cloud-download" download></a> Download Report</b></p>
+                            <p class="card-text bio pointer" ><b><a href="{{ report.report_img.url }}" class="fa fa-cloud-download" download target="blank"></a> Download Report</b></p>
                             {% endif %}
                         </div>
                         </div>

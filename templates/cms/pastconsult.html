@@ -43,12 +43,12 @@
                 {% for record in records %}
                     <div class="col-lg-3 add-btm-margin">
                         <div class="card pointer">
-                            <img src="{% static record.detail.url %}" class="card-img-top" height="300px;"/>
+                            <img src="{{ record.detail.url }}" class="card-img-top" height="300px;"/>
                         <div class="card-body">
                             <h2 class="card-title pointer" ><b>Doctor Assigned:<br/> {{record.doctor.name}}</b></h2>
                             <p class="card-text bio pointer" ><b>Date: </b>{{record.date_of_visit}}</p>
                             <p class="card-text bio pointer" ><b>Purpose: </b>{{record.purpose}}</p>
-                            <p class="card-text bio pointer" ><b><a href="{% static record.detail.url %}" class="fa fa-cloud-download" download></a> Download Prescription</b></p>
+                            <p class="card-text bio pointer" ><b><a href="{{ record.detail.url }}" class="fa fa-cloud-download" download target="blank"></a> Download Prescription</b></p>
                         </div>
                         </div>
                     </div>

@@ -406,6 +406,10 @@ tr{
     cursor: pointer;
 }
 
+.media-body{
+    padding: 0 0.5em;
+}
+
 @media(max-width:760px) {
     /* mall screens will not have fixed bottom */
     .fixed-bottom {

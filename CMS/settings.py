@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+from io import DEFAULT_BUFFER_SIZE
 from pathlib import Path
 
-from os import path
+from os import path, environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,17 +27,17 @@ SECRET_KEY = 'y91q(1+69u)dda0(qgp1z^3wsezddf+_%vjfslfx9pw6=usfi('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True in development
-DEBUG = False 
+DEBUG = False
 
 ALLOWED_HOSTS = [
-    '*',
-    ]
+    '0.0.0.0',
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'whitenoise.runserver_nostatic', # comment this in development
+    'whitenoise.runserver_nostatic',  # comment this in development
     # 'CMS.apps.SuitsConfig', # comment this in production
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,15 +45,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework', # for rest api building
-    'rest_framework.authtoken', # for token authentication creates a model for tokens
+    'rest_framework',  # for rest api building
+    'rest_framework.authtoken',  # for token authentication creates a model for tokens
     'cms.apps.CmsConfig',
     'cms_api.apps.CmsApiConfig',
+    'storages', # for aws s3 storage
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # for serving static files
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # for serving static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -117,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Calcutta' #'UTC'
+TIME_ZONE = 'Asia/Calcutta'  # 'UTC'
 
 USE_I18N = True
 
@@ -139,8 +141,26 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = path.join(BASE_DIR, 'all_static')
 
-MEDIA_ROOT = path.join(BASE_DIR, STATIC_URL+MEDIA_URL)#'static/cms/media')
+MEDIA_ROOT = path.join(BASE_DIR, STATIC_URL+MEDIA_URL)  # 'static/cms/media')
 
 
 # set session cookie default age
-SESSION_COOKIE_AGE = 3*60 #three minutes
+SESSION_COOKIE_AGE = 3*60  # three minutes
+
+
+# All the the variables are for aws S3 account
+AWS_ACCESS_KEY_ID = environ.get("AWS_ACCESS_KEY_ID")
+
+# Access Key
+AWS_SECRET_ACCESS_KEY = environ.get("AWS_SECRET_ACCESS_KEY")
+
+# S3 Storage name
+AWS_STORAGE_BUCKET_NAME = environ.get("AWS_STORAGE_BUCKET_NAME")
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+
+AWS_S3_REGION_NAME = "us-east-2"
+AWS_S3_SIGNATURE_VERSION = "s3v4"
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
