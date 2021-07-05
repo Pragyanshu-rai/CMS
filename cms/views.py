@@ -350,6 +350,8 @@ def login(request):
 
             stuff['warning'] = False
 
+            print(stuff, messages.get_messages())
+
             return redirect('home')
 
     else:
