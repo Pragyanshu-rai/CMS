@@ -92,11 +92,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-        'NAME':'d50fp3og1h04it',
-        'HOST':'ec2-54-205-183-19.compute-1.amazonaws.com',
-        'PORT': 5432,
-        'USER' :'vmspgmftfphvze',
-        'PASSWORD':'d0f369fc9c88e5c604e43d1955eb093a7111e2a4e43429c71766532ad48d5fc4',
+        'NAME': environ.get('PSQL_NAME'),
+        'HOST': environ.get('PSQL_HOST'),
+        'PORT': environ.get('PSQL_PORT'),
+        'USER': environ.get('PSQL_USER'),
+        'PASSWORD': environ.get('PSQL_PASS'),
     }
 }
 
