@@ -30,7 +30,7 @@ SECRET_KEY = 'y91q(1+69u)dda0(qgp1z^3wsezddf+_%vjfslfx9pw6=usfi('
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    '0.0.0.0',
+    'cms-wa.herokuapp.com',
 ]
 
 
