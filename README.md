@@ -9,21 +9,35 @@ Developed an OTP veriﬁcation method using a mail module to send an OTP to the 
 * ## Contents
  
  * [Technologies](#technologies)
-  * [Frontend](#frontend)
+
+   * [Frontend](#frontend)
+   * [Backend](#backend)
+   * [Database](#database)
+   * [Storage](#storage)
+   * [Hosting](#hosting)
+
  * [Features](#features)
+   
+   * [For Patient](#for-patient)  
+   * [For Clinic](#for-clinic)  
+ 
  * [Links](#links)
  * [API Reference](#api-reference)
+
    * [Login](#login)
    * [Register](#register)
    * [Patient Information](#patient-information)
    * [Doctors](#doctors)
    * [Past-bookings](#past-bookings)
    * [Bookings](#bookings)
+
      * [Active Appointments](#get-active-appointments)
      * [Book Appointment](#post-book-appointment)
      * [Cancel Appointment](#delete-cancel-appointments)
+
    * [GET Report](#get-report)
    * [Send OTP](#send-otp)
+
  * [Usage](#usage) 
  * [License](#license) 
 
@@ -595,3 +609,6 @@ In order to run anyone of the above commands, you must be in the directory as th
 
 ## License
 [MIT-License](https://github.com/Pragyanshu-rai/CMS/blob/master/LICENSE.txt)
+
+#### Top
+[TOP](#cms)
