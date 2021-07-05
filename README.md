@@ -95,7 +95,7 @@ Developed an OTP veriﬁcation method using a mail module to send an OTP to the 
 ##### CMS website can be accessed using the link below.
 > [CMS Admin](https://cms-wa.herokuapp.com/admin/)
 
-#### API endpoint list
+#### API Endpoint list
 
 > [CMS API](https://cms-wa.herokuapp.com/cms-api/)
 
@@ -109,7 +109,7 @@ You can use the CMS API to communicate with the server, but to do so, you must f
 
 ##### Allowed Requests
 
-| Request Method | endpoint                                    |
+| Request Method | Endpoint                                    |
 | -------------- | ------------------------------------------- |
 | POST           | https://cms-wa.herokuapp.com/cms-api/login/ |
 
@@ -137,7 +137,7 @@ An auth token is only generated once.
 
 ##### Allowed Requests
 
-| Request Method | endpoint                                     |
+| Request Method | Endpoint                                     |
 | -------------- | -------------------------------------------- |
 | POST           | https://cms-wa.herokuapp.com/cms-api/signup/ |
 
@@ -195,7 +195,7 @@ By Sending the above request, you will get the following response if there is no
 
 ##### Allowed Requests
 
-| Request Method | endpoint                                      |
+| Request Method | Endpoint                                      |
 | -------------- | --------------------------------------------- |
 | GET            | https://cms-wa.herokuapp.com/cms-api/patient/ |
 
@@ -232,7 +232,7 @@ By Sending the above request you will get the following response if there is no 
 
 ##### Allowed Requests
 
-| Request Method | endpoint                                     |
+| Request Method | Endpoint                                     |
 | -------------- | -------------------------------------------- |
 | GET            | https://cms-wa.herokuapp.com/cms-api/doctor/ |
 
@@ -307,7 +307,7 @@ By Sending the above request you will get the following response if there is no 
 
 ##### Allowed Requests
 
-| Request Method | endpoint                                      |
+| Request Method | Endpoint                                      |
 | -------------- | --------------------------------------------- |
 | GET            | https://cms-wa.herokuapp.com/cms-api/history/ |
 
@@ -353,7 +353,7 @@ By Sending the above request you will get the following response if there is no 
 
 ##### Allowed Requests
 
-| Request Method | endpoint                                      |
+| Request Method | Endpoint                                      |
 | -------------- | --------------------------------------------- |
 | GET            | https://cms-wa.herokuapp.com/cms-api/booking/ |
 | POST           | https://cms-wa.herokuapp.com/cms-api/booking/ |
@@ -478,7 +478,7 @@ By Sending the above request you will get the following response if there is no 
 
 ##### Allowed Requests
 
-| Request Method | endpoint                                      |
+| Request Method | Endpoint                                      |
 | -------------- | --------------------------------------------- |
 | GET            | https://cms-wa.herokuapp.com/cms-api/reports/ |
 
@@ -541,7 +541,7 @@ By Sending the above request you will get the following response if there is no 
 
 ##### Allowed Requests
 
-| Request Method | endpoint                                          |
+| Request Method | Endpoint                                          |
 | -------------- | ------------------------------------------------- |
 | GET            | https://cms-wa.herokuapp.com/cms-api/api-get-otp/ |
 | POST           | https://cms-wa.herokuapp.com/cms-api/api-get-otp/ |
