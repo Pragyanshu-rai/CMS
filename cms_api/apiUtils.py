@@ -19,7 +19,7 @@ def models_to_dict(models, report=False):
             if model.report_status == True:
                 print(model)
                 temp['report'] = model.report_img.name
-                temp["report-image"] = toByteString(base+model.report_img.url)
+                temp["report-image"] = model.report_img.url
 
         data.append(temp)
 
