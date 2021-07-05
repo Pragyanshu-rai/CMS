@@ -23,10 +23,10 @@ from cmsUtils.mail import sendEmail
 from cmsUtils.sms import sendSMS
 
 # sms and mail body string
-from cms.views import body, booking, stuff
+from cms.views import body#, booking, stuff
 # Create your views here.
 
-instructions = "api-endpoint http://127.0.0.1:8000/cms-api-signup for user registeration (username, password, gender(m/f), roll, branch, section, year) "
+instructions = "api-endpoint http://127.0.0.1:8000/cms-api-signup for user registeration (username, password, gender(m/f), dob, address, phone) "
 
 api_list = [
     "http://127.0.0.1:8000/cms-api/patient/",
@@ -396,7 +396,7 @@ class booking_api(APIView):
                         msg = " Appointments Canceled"
 
                 else:
-                    msg = "[SERVER-ERROR]"
+                    msg = "[SERVER-ERROR] booking id does not exist!"
 
                 print("json-data:\n", msg)
                 return JsonResponse({"MSG": msg}, safe=False)

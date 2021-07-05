@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from cmsUtils.imgToByte import toByteString
 
 
-base = "all_static"
+base = ""#"all_static"
 
 # function takes in model object list and returns dict of items with key as index and items as objects item dict
 def models_to_dict(models, report=False):
@@ -17,6 +17,7 @@ def models_to_dict(models, report=False):
         if report == True:
 
             if model.report_status == True:
+                print(model)
                 temp['report'] = model.report_img.name
                 temp["report-image"] = toByteString(base+model.report_img.url)
 
