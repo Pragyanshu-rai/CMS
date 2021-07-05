@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from io import DEFAULT_BUFFER_SIZE
 from pathlib import Path
-
 from os import path, environ
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,11 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'y91q(1+69u)dda0(qgp1z^3wsezddf+_%vjfslfx9pw6=usfi('
+# SECRET_KEY = 'y91q(1+69u)dda0(qgp1z^3wsezddf+_%vjfslfx9pw6=usfi('
+SECRET_KEY = environ.get("DJ_SECRET_KEY", default=None)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True in development
-DEBUG = False
+# DEBUG = True in development 
+# DEBUG value can be True/False or 1/0
+DEBUG = int(environ.get("DJ_DEBUG", defaul=0))
 
 ALLOWED_HOSTS = [
     'cms-wa.herokuapp.com',
@@ -164,3 +166,5 @@ AWS_S3_REGION_NAME = "us-east-2"
 AWS_S3_SIGNATURE_VERSION = "s3v4"
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+django_heroku.settings(locals())

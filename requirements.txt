@@ -11,3 +11,6 @@ simplejson==3.16.0
 twilio
 whitenoise==5.2.0
 gunicorn
+psycopg2-binary
+dj-database-url
+dajngo-heroku
