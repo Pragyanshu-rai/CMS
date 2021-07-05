@@ -10,8 +10,6 @@ from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from io import BytesIO
 from random import randint
-# importing utility methods from apiUtils module from the cms_api module
-from cms_api.apiUtils import models_to_dict, get_contact_or_none, validate_signup
 
 # importing stuff from cms module which is parallel to cms_api(this) module
 from cms.models import *
@@ -19,6 +17,7 @@ from cms.models import *
 from cms.serializers import ContactSerializer, HistorySerializer, DoctorSerializer
 
 # importing stuff from cmsUtils module which is parallel to cms_api(this) module
+from cmsUtils.apiUtils import models_to_dict, get_contact_or_none, validate_signup
 from cmsUtils.mail import sendEmail
 from cmsUtils.sms import sendSMS
 
