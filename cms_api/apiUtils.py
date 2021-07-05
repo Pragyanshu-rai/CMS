@@ -1,9 +1,6 @@
 from django.contrib.auth.models import User
 # from cms.models import to_date
-from cmsUtils.imgToByte import toByteString
-
-
-base = ""#"all_static"
+# from cmsUtils.imgToByte import toByteString
 
 # function takes in model object list and returns dict of items with key as index and items as objects item dict
 def models_to_dict(models, report=False):
