@@ -6,7 +6,7 @@ CMS is an online clinic record system that can be used to book appointments and 
 
 Developed an OTP veriﬁcation method using a mail module to send an OTP to the registered email id and Twilio module to send an OTP to the registered mobile number.
 
-* ## Contents
+## Contents
  
  * [Technologies](#technologies)
 
