@@ -2,7 +2,7 @@
 
 ## Clinic Management System
 
-CMS is an online clinic record system that can be used to book appointments and manage patient records, especially for small clinics. Patient history is stored in the database and can be accessed by the user in their dashboard.
+CMS is an online clinic record system that can be used to book appointments and manage patient records, especially for small clinics. Patient history is stored in the database and can be accessed by the user through their dashboard.
 
 Developed an OTP veriﬁcation method using a mail module to send an OTP to the registered email id and Twilio module to send an OTP to the registered mobile number.
 
@@ -92,7 +92,7 @@ Developed an OTP veriﬁcation method using a mail module to send an OTP to the 
 ##### CMS website can be accessed using the link below.
 > [CMS](https://cms-wa.herokuapp.com/admin/)
 
-##### CMS website can be accessed using the link below.
+##### CMS Admin panel can be accessed using the link below.
 > [CMS Admin](https://cms-wa.herokuapp.com/admin/)
 
 #### API Endpoint list
@@ -482,7 +482,7 @@ By Sending the above request you will get the following response if there is no 
 | -------------- | --------------------------------------------- |
 | GET            | https://cms-wa.herokuapp.com/cms-api/reports/ |
 
-To get the lab reports of the patient if any exists you must send the same JSON file as given below.
+To get the patient's lab reports if any exists, you must send the same JSON file as given below.
 
 ```JSON
 {
@@ -577,7 +577,7 @@ If either email id is provided or both email id and phone number are provided
 
 ## Usage
 
-Download the zip file and extract it at the required location and then navigate to where the requirements.txt file is located and run the command below.
+Download the zip file, extract it at the required location, and then navigate to where the requirements.txt file is located and run the command below.
 
 ```bash
     pip install -r requirements.txt
@@ -590,10 +590,10 @@ Then navigate to the CMS/settings.py file and append '0.0.0.0' to the ALLOWED_HO
     'cms-wa.herokuapp.com',
  ]
 ```
-Then you will have to create a few environment variables for mail and sms modules in the cmsUtils directory, for PostgreSQL database 
+Then you will have to create a few environment variables for mail and sms modules in the cmsUtils directory, for the PostgreSQL database 
 connection and settings.py file.
 
-After everything is done run any one of the following commands from the same location
+After everything is done, run any one of the following commands from the same location
 
 ```python
     python3 manage.py runserver 0.0.0.0:8000
