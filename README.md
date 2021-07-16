@@ -90,7 +90,7 @@ Developed an OTP veriﬁcation method using a mail module to send an OTP to the 
 ## Links
 
 ##### CMS website can be accessed using the link below.
-> [CMS](https://cms-wa.herokuapp.com/admin/)
+> [CMS](https://cms-wa.herokuapp.com/)
 
 ##### CMS Admin panel can be accessed using the link below.
 > [CMS Admin](https://cms-wa.herokuapp.com/admin/)
