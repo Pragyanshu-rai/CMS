@@ -1,12 +1,13 @@
 # **CMS** 
 
+## Clinic Management System
+
 <!--Banner Start-->
 
 <img align="left" width="360" src="https://github.com/Pragyanshu-rai/CMS/blob/dev/extras/cms/gif/cms_mod.gif" >
 
 <!--Banner End-->
 
-## Clinic Management System
 
 CMS is an online clinic record system that can be used to book appointments and manage patient records, especially for small clinics. Patient history is stored in the database and can be accessed by the user through their dashboard.
 
