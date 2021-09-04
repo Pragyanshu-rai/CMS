@@ -2,6 +2,12 @@
 
 ## Clinic Management System
 
+<!--Banner Start-->
+
+![](https://github.com/Pragyanshu-rai/CMS/blob/dev/extras/cms/gif/cms_mod.gif)
+
+<!--Banner End-->
+
 CMS is an online clinic record system that can be used to book appointments and manage patient records, especially for small clinics. Patient history is stored in the database and can be accessed by the user through their dashboard.
 
 Developed an OTP veriﬁcation method using a mail module to send an OTP to the registered email id and Twilio module to send an OTP to the registered mobile number.
