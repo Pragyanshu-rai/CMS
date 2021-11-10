@@ -32,6 +32,7 @@ DEBUG = int(environ.get("DJ_DEBUG", default=0))
 
 ALLOWED_HOSTS = [
     'cms-wa.herokuapp.com',
+    '*'
 ]
 
 

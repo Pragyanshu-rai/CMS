@@ -69,8 +69,7 @@ def check_bookings(today):
     for index in range(len(booking)):
         if booking[index].booking_date < today:
             his = History()
-            his.add_to_history(booking[index].id, booking[index].contact.user.username, booking[index].doctor.name,
-                               booking[index].contact.user_id, booking[index].doctor_id, booking[index].booking_date,  booking[index].time_slot)
+            his.add_to_history(booking[index].id, booking[index].contact.user.username, booking[index].doctor.name, booking[index].contact.user_id, booking[index].doctor_id, booking[index].booking_date,  booking[index].time_slot)
             his.save()
             booking[index].delete()
 
@@ -103,7 +102,8 @@ class Doctor(models.Model):
 
     office_number = models.CharField(max_length=11)
 
-    profile_pic = models.ImageField(null=True, default="null", upload_to="doctor_profile")
+    profile_pic = models.ImageField(
+        null=True, default="null", upload_to="doctor_profile")
 
     """slots = models.CharField(max_length=7, default="")
     
@@ -140,7 +140,8 @@ class Contact(models.Model):
 
     phone = models.CharField(max_length=11)
 
-    profile_pic = models.ImageField(null=True, default="null", upload_to="profile_pics")
+    profile_pic = models.ImageField(
+        null=True, default="null", upload_to="profile_pics")
 
     def make_contact(self, user, gender, dob, address, phone):
         self.user = user
@@ -167,7 +168,8 @@ class Details(models.Model):
 
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
 
-    date_of_visit = models.DateField(auto_now_add=False, auto_now=False, blank=True)
+    date_of_visit = models.DateField(
+        auto_now_add=False, auto_now=False, blank=True)
 
     purpose = models.CharField(max_length=30, default="General Check up")
 
@@ -194,7 +196,8 @@ class Reports(models.Model):
 
     lab = models.CharField(max_length=40, default="General")
 
-    date_of_report = models.DateField(auto_now_add=False, auto_now=False, blank=True)
+    date_of_report = models.DateField(
+        auto_now_add=False, auto_now=False, blank=True)
 
     report_status = models.BooleanField(default=False)
 
@@ -220,7 +223,8 @@ class Booking(models.Model):
 
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
 
-    booking_date = models.DateField(auto_now_add=False, auto_now=False, blank=True)
+    booking_date = models.DateField(
+        auto_now_add=False, auto_now=False, blank=True)
 
     time_slot = models.CharField(max_length=10, default="0")
 
@@ -245,21 +249,22 @@ class Booking(models.Model):
 
 class History(models.Model):
 
-    book_no = models.CharField(max_length=20)
+    book_no = models.CharField(max_length=200)
 
-    patient_name = models.CharField(max_length=20)
+    patient_name = models.CharField(max_length=200)
 
-    doctor_name = models.CharField(max_length=20)
+    doctor_name = models.CharField(max_length=200)
 
-    patient_id = models.CharField(max_length=20)
+    patient_id = models.CharField(max_length=200)
 
-    doctor_id = models.CharField(max_length=20)
+    doctor_id = models.CharField(max_length=200)
 
-    book_date = models.DateField(auto_now_add=False, auto_now=False, blank=True)
+    book_date = models.DateField(
+        auto_now_add=False, auto_now=False, blank=True)
 
-    book_slot = models.CharField(max_length=10)
+    book_slot = models.CharField(max_length=100)
 
-    reason = models.CharField(max_length=20, default="--------")
+    reason = models.CharField(max_length=200, default="--------")
 
     def add_to_history(self, book_no, patient_name, doctor_name, patient_id, doctor_id, date, slot):
         self.book_no = book_no
