@@ -124,7 +124,7 @@ class Doctor(models.Model):
             "name": self.name,
             "gender": self.gender,
             "domain": self.domain,
-            "ofiice_number": self.office_number
+            "office_number": self.office_number
         }
 
 

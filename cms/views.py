@@ -9,7 +9,6 @@ from cms.forms import updateContact
 from cmsUtils.mail import sendEmail
 from cmsUtils.sms import sendSMS
 
-user = "pranshu: 12, user_test: user1 "
 
 stuff = dict()
 
@@ -68,7 +67,7 @@ def home(request):
     return render(request, 'cms/index.html', stuff)
 
 
-def aboutme(request):
+def aboutMe(request):
 
     global stuff
 
@@ -88,13 +87,14 @@ def profile(request):
 
         if request.method == "POST":
 
-            check = updateContact(request.POST, request.FILES, instance=stuff['contact'])
+            check = updateContact(
+                request.POST, request.FILES, instance=stuff['contact'])
             if check.is_valid():
-                
+
                 check.save()
                 stuff['warning'] = False
                 messages.info(request, "  User Profile Updated Successfully")
-            
+
             else:
 
                 stuff['warning'] = True
@@ -112,7 +112,7 @@ def profile(request):
 
             else:
                 stuff['show'] = False
-        
+
         form = updateContact(instance=stuff['contact'])
         stuff['form'] = form
 
@@ -276,7 +276,8 @@ def booking(request):
             slot = request.POST['slot']
             print("date", date, ", Slot-", slot)
 
-            result = has_duplicate(date, slot, stuff['doctor'].id, request.user.id)
+            result = has_duplicate(
+                date, slot, stuff['doctor'].id, request.user.id)
 
             if result != None:
 
@@ -330,7 +331,8 @@ def login(request):
 
         print(email, password)
 
-        user = auth.authenticate(username=name+"_"+email, password=password)
+        user = auth.authenticate(username=name+"_"+email, password=password) 
+        user = auth.authenticate(username=email, password=password) if user is None else user
 
         if user == None:
 
@@ -487,7 +489,7 @@ def forgot(request):
             print("Email - ", user.email)
             sendEmail("OTP", otp_otp, email)
             messages.info(
-                request, '  An OTP is sent to your regietered email id. ')
+                request, '  An OTP is sent to your registered email id. ')
             uid = user.id
             OTP[uid] = otp_otp
 

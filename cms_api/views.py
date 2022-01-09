@@ -2,7 +2,6 @@
 import datetime
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-# from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
@@ -22,12 +21,13 @@ from cmsUtils.mail import sendEmail
 from cmsUtils.sms import sendSMS
 
 # sms and mail body string
-from cms.views import body#, booking, stuff
+from cms.views import body
 # Create your views here.
 
-instructions = "api-endpoint http://127.0.0.1:8000/cms-api-signup for user registeration (username, password, gender(m/f), dob, address, phone) "
+instructions = "api-endpoint http://127.0.0.1:8000/cms-api/signup for user registeration (username, password, gender(m/f), dob, address, phone) and "
 
 api_list = [
+    "http://127.0.0.1:8000/cms-api/login",
     "http://127.0.0.1:8000/cms-api/patient/",
     "http://127.0.0.1:8000/cms-api/doctor/",
     "http://127.0.0.1:8000/cms-api/history/",
@@ -40,7 +40,7 @@ api_list = [
 ]
 
 
-def instruction(request):
+def getInstruction(request):
     return JsonResponse({"MSG": instructions, "API-List": api_list}, safe=False)
 
 
@@ -337,7 +337,7 @@ class booking_api(APIView):
         try:
 
             python_data = JSONParser().parse(BytesIO(request.body))
-            print("Data Recieved", python_data)
+            print("Data Received", python_data)
 
             try:
 
@@ -379,7 +379,7 @@ class booking_api(APIView):
         try:
 
             python_data = JSONParser().parse(BytesIO(request.body))
-            print("Data Recieved", python_data)
+            print("Data Received", python_data)
 
             if "booking-ids" in python_data.keys():
 

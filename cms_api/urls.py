@@ -4,7 +4,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from . import views
 
 urlpatterns = [
-    path('', views.instruction, name="intructions"),
+    path('', views.getInstruction, name="intructions"),
     path('login/', obtain_auth_token, name="login-api"),
     path('signup/', views.signup, name="signup-api"),
     path('patient/', views.patient_api.as_view(), name="patient-api"),
@@ -18,5 +18,5 @@ urlpatterns = [
 
 # this regex will match any url pattern and then render the 404 page.
 urlpatterns += [
-    re_path(r'.*', views.instruction, name="error"),
+    re_path(r'.*', views.getInstruction, name="error"),
 ]

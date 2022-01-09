@@ -1,5 +1,4 @@
 from base64 import b64encode
-from codecs import decode
 
 
 # function takes the absolute path of the image and returns the converted base64 string for json transfer
