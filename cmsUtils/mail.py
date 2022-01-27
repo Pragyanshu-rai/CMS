@@ -2,6 +2,8 @@ import smtplib
 from email.message import EmailMessage
 from os import environ
 
+from black import traceback
+
 def sendEmail(subject, body, to):
 
     # create EmailMessage object
@@ -17,7 +19,7 @@ def sendEmail(subject, body, to):
     message['from'] = sender
     try:
 
-        server = smtplib.SMTP(environ["SYSTEM_EMAIL_HOST"], environ["SYSTREM_EMAIL_PORT"])
+        server = smtplib.SMTP(environ["SYSTEM_EMAIL_HOST"], environ["SYSTEM_EMAIL_PORT"])
         server.starttls()
         server.login(sender, password)
         # send mail
@@ -26,5 +28,5 @@ def sendEmail(subject, body, to):
         server.quit()
 
     except:
-
+        traceback.print_exc()
         server.quit()

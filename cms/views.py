@@ -8,6 +8,7 @@ from cms.models import *
 from cms.forms import updateContact
 from cmsUtils.mail import sendEmail
 from cmsUtils.sms import sendSMS
+from cmsUtils.emailUtils import body
 
 
 stuff = dict()
@@ -24,23 +25,6 @@ stuff['slots'] = [
     '11:00 AM',
     '11:30 AM'
 ]
-
-body = """
-Dear Customer,
-
-Thank you for being associated with Clinic Management System (CMS).
-
-You have requested for password change for which One Time Password (OTP):- {} has been generated at {}.
-
-In case you have not requested for password change you can write an email at "noreply.services.2001@gmail.com".
-
-Disclaimer
-
-We recommend you do not share this with anyone to prevent fraudulent transactions.
-
-Sincerely,
-Clinic Management System (CMS)
-    """
 
 
 def error(request, path):
@@ -331,8 +315,9 @@ def login(request):
 
         print(email, password)
 
-        user = auth.authenticate(username=name+"_"+email, password=password) 
-        user = auth.authenticate(username=email, password=password) if user is None else user
+        user = auth.authenticate(username=name+"_"+email, password=password)
+        user = auth.authenticate(
+            username=email, password=password) if user is None else user
 
         if user == None:
 

@@ -20,4 +20,4 @@ def sendSMS(body, to=environ["MY_PHONE_NUMBER"]):
 
 
     print("SMS SENT!")
-    return '  An OTP is sent to your regietered mobile number.'
+    return '  An OTP is sent to your registered mobile number.'

@@ -1,5 +1,6 @@
 # from django.shortcuts import redirect
 import datetime
+from traceback import print_exc
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authentication import TokenAuthentication
@@ -19,9 +20,9 @@ from cms.serializers import ContactSerializer, HistorySerializer, DoctorSerializ
 from cmsUtils.apiUtils import models_to_dict, get_contact_or_none, validate_signup
 from cmsUtils.mail import sendEmail
 from cmsUtils.sms import sendSMS
+from cmsUtils.emailUtils import body
 
-# sms and mail body string
-from cms.views import body
+
 # Create your views here.
 
 instructions = "api-endpoint http://127.0.0.1:8000/cms-api/signup for user registeration (username, password, gender(m/f), dob, address, phone) and "
@@ -36,7 +37,7 @@ api_list = [
     "http://127.0.0.1:8000/cms-api/booking/",
     "http://127.0.0.1:8000/cms-api/history/",
     "http://127.0.0.1:8000/cms-api/api-get-otp/",
-    "http://127.0.0.1:8000/cms-api/help/",
+    "http://127.0.0.1:8000/cms-api/",
 ]
 
 
@@ -96,6 +97,7 @@ class request_otp(APIView):
                     sms = JSONParser().parse(BytesIO(request.body)).pop("sms")
                 except Exception as ex:
                     print("[SERVER-ERROR]", ex)
+                    print_exc()
                     return JsonResponse({"ERR": "email or sms not provided!"}, safe=False)
 
                 # genrating a 6-digit random OTP for validation
