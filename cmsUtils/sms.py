@@ -1,4 +1,3 @@
-from logging import exception
 from os import environ
 from twilio.rest import Client
 

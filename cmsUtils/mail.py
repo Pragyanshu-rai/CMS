@@ -2,8 +2,6 @@ import smtplib
 from email.message import EmailMessage
 from os import environ
 
-from black import traceback
-
 def sendEmail(subject, body, to):
 
     # create EmailMessage object
@@ -28,5 +26,4 @@ def sendEmail(subject, body, to):
         server.quit()
 
     except:
-        traceback.print_exc()
         server.quit()
