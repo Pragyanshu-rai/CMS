@@ -15,3 +15,5 @@ We recommend you do not share this with anyone to prevent fraudulent transaction
 Sincerely,
 Team Clinic Management System (CMS)
     """
+
+subject = "OTP For Password Reset"

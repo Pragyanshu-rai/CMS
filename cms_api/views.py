@@ -20,7 +20,7 @@ from cms.serializers import ContactSerializer, HistorySerializer, DoctorSerializ
 from cmsUtils.apiUtils import models_to_dict, get_contact_or_none, validate_signup
 from cmsUtils.mail import sendEmail
 from cmsUtils.sms import sendSMS
-from cmsUtils.emailUtils import body
+from cmsUtils.emailUtils import body, subject
 
 
 # Create your views here.
@@ -107,7 +107,7 @@ class request_otp(APIView):
 
                 if email != "":
 
-                    sendEmail(subject="OTP", body=body, to=email)
+                    sendEmail(subject=subject, body=body, to=email)
                     msg = "Email."
 
                 elif sms != "":

@@ -8,7 +8,7 @@ from cms.models import *
 from cms.forms import updateContact
 from cmsUtils.mail import sendEmail
 from cmsUtils.sms import sendSMS
-from cmsUtils.emailUtils import body
+from cmsUtils.emailUtils import body, subject
 
 
 stuff = dict()
@@ -472,7 +472,7 @@ def forgot(request):
         if len(email) > 1:
 
             print("Email - ", user.email)
-            sendEmail("OTP", otp_otp, email)
+            sendEmail(subject=subject, body=body, to=email)
             messages.info(
                 request, '  An OTP is sent to your registered email id. ')
             uid = user.id
