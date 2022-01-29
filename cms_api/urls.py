@@ -14,6 +14,7 @@ urlpatterns = [
     path('reports/', views.reports_api.as_view(), name="reports-api"),
     path('booking/', views.booking_api.as_view(), name="booking-api"),
     path('api-get-otp/', views.request_otp.as_view(), name="forgot-otp"),
+    path('reset-password/', views.reset_password.as_view(), name="password-reset"),
 ]
 
 # this regex will match any url pattern and then render the 404 page.

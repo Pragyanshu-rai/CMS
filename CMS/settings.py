@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'CMS.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3', # the dev local dbms server
         'NAME': environ.get('PSQL_NAME'),
         'HOST': environ.get('PSQL_HOST'),
         'PORT': environ.get('PSQL_PORT'),

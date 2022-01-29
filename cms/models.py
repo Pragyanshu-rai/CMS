@@ -15,7 +15,7 @@ def cancel_booking(booking_id):
     try:
         booking = Booking.objects.get(id=booking_id)
     except Exception as ex:
-        print("[MODLE_ERROR]", ex)
+        print("[MODEL_ERROR]", ex)
         return "oops"
 
     his = History()
@@ -69,7 +69,8 @@ def check_bookings(today):
     for index in range(len(booking)):
         if booking[index].booking_date < today:
             his = History()
-            his.add_to_history(booking[index].id, booking[index].contact.user.username, booking[index].doctor.name, booking[index].contact.user_id, booking[index].doctor_id, booking[index].booking_date,  booking[index].time_slot)
+            his.add_to_history(booking[index].id, booking[index].contact.user.username, booking[index].doctor.name,
+                               booking[index].contact.user_id, booking[index].doctor_id, booking[index].booking_date,  booking[index].time_slot)
             his.save()
             booking[index].delete()
 

@@ -9,7 +9,7 @@ def toByteString(path):
         with open(path, 'rb') as image:
             return b64encode(image.read()).decode("utf-8")
 
-    except Exception as message:
+    except Exception as error:
 
-        print("[ERROR]", message)
-        return message
+        print("[ERROR]", error)
+        return error

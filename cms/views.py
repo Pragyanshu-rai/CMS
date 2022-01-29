@@ -1,23 +1,26 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from random import randint
+from random import choices
+from string import ascii_letters, digits
 import datetime
 from cms.viewsUtil import modifySession
 from cms.models import *
 from cms.forms import updateContact
 from cmsUtils.mail import sendEmail
-from cmsUtils.sms import sendSMS
-from cmsUtils.emailUtils import body, subject
+from cmsUtils.emailUtils import email_body_html, email_body_text, email_subjects
+from cmsUtils.viewUtils import get_user_ip, validate_email_and_get_user
 
 
-stuff = dict()
+user_session: dict = dict()
+OTP: dict = dict()
+otp_request: str = "otpRequest"
+password_change: str = "passwordChange"
+invalid_login: str = "invalidLogin"
 
-OTP = dict()
+user_session['change'] = False
 
-stuff['change'] = False
-
-stuff['slots'] = [
+user_session['slots'] = [
     '09:00 AM',
     '09:30 AM',
     '10:00 AM',
@@ -33,7 +36,7 @@ def error(request, path):
 
 def home(request):
 
-    global stuff
+    global user_session
 
     print("home")
 
@@ -43,71 +46,71 @@ def home(request):
 
         modifySession(request)
 
-        stuff['fresh-login'] = True
+        user_session['fresh-login'] = True
 
-        # return render(request, 'cms/profile.html', stuff)
+        # return render(request, 'cms/profile.html', user_session)
         return redirect('profile')
 
-    return render(request, 'cms/index.html', stuff)
+    return render(request, 'cms/index.html', user_session)
 
 
 def aboutMe(request):
 
-    global stuff
+    global user_session
 
-    return render(request, 'cms/about.html', stuff)
+    return render(request, 'cms/about.html', user_session)
 
 
 def profile(request):
 
-    global stuff
+    global user_session
 
     modifySession(request)
 
     if request.user.is_authenticated == True:
 
-        stuff['contact'] = Contact.objects.get(user=request.user)
-        stuff['age'] = age(to_date(str(stuff['contact'].dob)))
+        user_session['contact'] = Contact.objects.get(user=request.user)
+        user_session['age'] = age(to_date(str(user_session['contact'].dob)))
 
         if request.method == "POST":
 
             check = updateContact(
-                request.POST, request.FILES, instance=stuff['contact'])
+                request.POST, request.FILES, instance=user_session['contact'])
             if check.is_valid():
 
                 check.save()
-                stuff['warning'] = False
+                user_session['warning'] = False
                 messages.info(request, "  User Profile Updated Successfully")
 
             else:
 
-                stuff['warning'] = True
+                user_session['warning'] = True
                 messages.info(request, "  User Profile Update Failed")
 
         else:
 
-            fresh = stuff.get("fresh-login", False)
+            fresh = user_session.get("fresh-login", False)
 
             if fresh:
 
                 messages.info(request, "  logged in")
-                stuff['warning'] = False
-                stuff['fresh-login'] = False
+                user_session['warning'] = False
+                user_session['fresh-login'] = False
 
             else:
-                stuff['show'] = False
+                user_session['show'] = False
 
-        form = updateContact(instance=stuff['contact'])
-        stuff['form'] = form
+        form = updateContact(instance=user_session['contact'])
+        user_session['form'] = form
 
-        return render(request, 'cms/profile.html', stuff)
+        return render(request, 'cms/profile.html', user_session)
 
     return redirect('login')
 
 
 def pastconsult(request):
 
-    global stuff
+    global user_session
 
     modifySession(request)
 
@@ -115,16 +118,16 @@ def pastconsult(request):
 
         contact = Contact.objects.get(user=request.user)
 
-        stuff['records'] = Details.objects.filter(contact=contact)
+        user_session['records'] = Details.objects.filter(contact=contact)
 
-        return render(request, 'cms/pastconsult.html', stuff)
+        return render(request, 'cms/pastconsult.html', user_session)
 
-    return render(request, 'cms/forbid.html', stuff)
+    return render(request, 'cms/forbid.html', user_session)
 
 
 def dashboard(request):
 
-    global stuff
+    global user_session
 
     modifySession(request)
 
@@ -132,14 +135,14 @@ def dashboard(request):
 
         contact = Contact.objects.get(user=request.user)
 
-        return render(request, 'cms/dashboard.html', stuff)
+        return render(request, 'cms/dashboard.html', user_session)
 
-    return render(request, 'cms/forbid.html', stuff)
+    return render(request, 'cms/forbid.html', user_session)
 
 
 def pastbooking(request):
 
-    global stuff
+    global user_session
 
     modifySession(request)
 
@@ -147,20 +150,21 @@ def pastbooking(request):
 
         check_bookings(datetime.date.today())
 
-        stuff['bookings'] = History.objects.filter(patient_id=request.user.id)
+        user_session['bookings'] = History.objects.filter(
+            patient_id=request.user.id)
 
-        stuff['page'] = "Past Appointments"
+        user_session['page'] = "Past Appointments"
 
-        stuff['line'] = "All your past appointments"
+        user_session['line'] = "All your past appointments"
 
-        return render(request, 'cms/active_or_pastbooking.html', stuff)
+        return render(request, 'cms/active_or_pastbooking.html', user_session)
 
-    return render(request, 'cms/forbid.html', stuff)
+    return render(request, 'cms/forbid.html', user_session)
 
 
 def activebooking(request):
 
-    global stuff
+    global user_session
 
     modifySession(request)
 
@@ -170,12 +174,12 @@ def activebooking(request):
 
         contact = Contact.objects.get(user_id=request.user.id)
 
-        stuff['bookings'] = Booking.objects.filter(contact=contact)
-        print(stuff)
+        user_session['bookings'] = Booking.objects.filter(contact=contact)
+        print(user_session)
 
-        stuff['page'] = "Active Appointments"
+        user_session['page'] = "Active Appointments"
 
-        stuff['line'] = "All your pending or active appointments"
+        user_session['line'] = "All your pending or active appointments"
 
         if request.method == "POST":
 
@@ -185,7 +189,7 @@ def activebooking(request):
                 for check in checks:
                     res = cancel_booking(check)
                 if res != "oops":
-                    stuff['warning'] = False
+                    user_session['warning'] = False
                     if len(checks) == 1:
                         messages.info(request, " Appointment Canceled")
                     else:
@@ -193,14 +197,14 @@ def activebooking(request):
 
             return redirect('dashboard')
 
-        return render(request, 'cms/active_or_pastbooking.html', stuff)
+        return render(request, 'cms/active_or_pastbooking.html', user_session)
 
-    return render(request, 'cms/forbid.html', stuff)
+    return render(request, 'cms/forbid.html', user_session)
 
 
 def report(request):
 
-    global stuff
+    global user_session
 
     modifySession(request)
 
@@ -208,16 +212,16 @@ def report(request):
 
         contact = Contact.objects.get(user=request.user)
 
-        stuff['reports'] = Reports.objects.filter(contact=contact)
+        user_session['reports'] = Reports.objects.filter(contact=contact)
 
-        return render(request, 'cms/reports.html', stuff)
+        return render(request, 'cms/reports.html', user_session)
 
-    return render(request, 'cms/forbid.html', stuff)
+    return render(request, 'cms/forbid.html', user_session)
 
 
 def doctors(request):
 
-    global stuff
+    global user_session
 
     modifySession(request)
 
@@ -227,19 +231,19 @@ def doctors(request):
 
         doctor = Doctor.objects.all()
 
-        stuff['doctors'] = doctor
+        user_session['doctors'] = doctor
 
         if request.method == 'POST':
 
             doctor = request.POST['booking']
 
-            stuff['doctor'] = Doctor.objects.get(id=doctor)
+            user_session['doctor'] = Doctor.objects.get(id=doctor)
 
             return redirect('booking')
 
-        return render(request, 'cms/doctors.html', stuff)
+        return render(request, 'cms/doctors.html', user_session)
 
-    return render(request, 'cms/forbid.html', stuff)
+    return render(request, 'cms/forbid.html', user_session)
 
 
 def booking(request):
@@ -248,7 +252,7 @@ def booking(request):
 
     if request.user.is_authenticated == True:
 
-        doc = stuff.get('doctor', None)
+        doc = user_session.get('doctor', None)
 
         if doc == None:
 
@@ -261,7 +265,7 @@ def booking(request):
             print("date", date, ", Slot-", slot)
 
             result = has_duplicate(
-                date, slot, stuff['doctor'].id, request.user.id)
+                date, slot, user_session['doctor'].id, request.user.id)
 
             if result != None:
 
@@ -271,11 +275,11 @@ def booking(request):
                     messages.info(
                         request, "  You Already Have An Appointment In This Slot And Date!")
 
-                stuff['warning'] = True
+                user_session['warning'] = True
 
-                return render(request, 'cms/booking.html', stuff)
+                return render(request, 'cms/booking.html', user_session)
 
-            stuff['warning'] = False
+            user_session['warning'] = False
 
             messages.info(request, "  Slot Booked")
 
@@ -283,7 +287,7 @@ def booking(request):
 
             contact = Contact.objects.get(user_id=request.user.id)
 
-            doctor = Doctor.objects.get(id=stuff['doctor'].id)
+            doctor = Doctor.objects.get(id=user_session['doctor'].id)
 
             booking.make_booking(contact, doctor, to_date(date), slot)
 
@@ -291,19 +295,19 @@ def booking(request):
 
             print(booking)
 
-            print(stuff)
+            print(user_session)
 
-            # render(request, 'booking.html', stuff)
+            # render(request, 'booking.html', user_session)
             return redirect('doctors')
 
-        return render(request, 'cms/booking.html', stuff)
+        return render(request, 'cms/booking.html', user_session)
 
-    return render(request, 'cms/forbid.html', stuff)
+    return render(request, 'cms/forbid.html', user_session)
 
 
 def login(request):
 
-    global stuff
+    global user_session
 
     if request.method == 'POST':
 
@@ -323,7 +327,7 @@ def login(request):
 
             messages.info(request, '  Invalid Login Details')
 
-            stuff['warning'] = True
+            user_session['warning'] = True
 
             return redirect('login')
 
@@ -333,22 +337,22 @@ def login(request):
 
             request.session["user"] = user.id
 
-            stuff["show"] = True
+            user_session["show"] = True
 
-            stuff['warning'] = False
+            user_session['warning'] = False
 
-            print(stuff, messages.get_messages(request=request))
+            print(user_session, messages.get_messages(request=request))
 
             return redirect('home')
 
     else:
 
-        return render(request, 'cms/login.html', stuff)
+        return render(request, 'cms/login.html', user_session)
 
 
 def register(request):
 
-    global stuff
+    global user_session
 
     if request.method == 'POST':
 
@@ -378,7 +382,7 @@ def register(request):
 
             messages.info(request, '  Password does not match')
 
-            stuff['warning'] = True
+            user_session['warning'] = True
 
             return redirect('register')
 
@@ -386,7 +390,7 @@ def register(request):
 
             messages.info(request, '  User Exists')
 
-            stuff['warning'] = True
+            user_session['warning'] = True
 
             return redirect('register')
 
@@ -398,17 +402,17 @@ def register(request):
         contact.save()
         messages.info(request, '  User Registered')
 
-        stuff['warning'] = False
+        user_session['warning'] = False
 
         return redirect("login")
 
     else:
-        return render(request, 'cms/register.html', stuff)
+        return render(request, 'cms/register.html', user_session)
 
 
 def otp(request, uid=-1):
 
-    global stuff, OTP
+    global user_session, OTP
 
     print("uid =", uid)
 
@@ -422,135 +426,114 @@ def otp(request, uid=-1):
 
             messages.info(request, '  Correct OTP')
 
-            stuff['warning'] = False
+            user_session['warning'] = False
 
-            stuff['change'] = True
+            user_session['change'] = True
 
             return redirect('change', uid=uid)
         else:
 
             messages.info(request, '  Invalid - OTP')
 
-            stuff['warning'] = True
+            user_session['warning'] = True
 
-            return render(request, 'cms/otp.html', stuff)
+            return render(request, 'cms/otp.html', user_session)
 
-    return render(request, 'cms/otp.html', stuff)
+    return render(request, 'cms/otp.html', user_session)
 
 
 def forgot(request):
 
-    global stuff, OTP, body
+    global user_session, OTP, email_body_text, email_body_html, email_subjects
+    current_time_date: str = str(
+        datetime.datetime.now()).split(".")[0]
 
     if request.method == "POST":
 
         email = request.POST['email']
-
-        phone = request.POST['contact']
+        print("in forgot")
 
         try:
-
-            if len(email) > 1:
-
-                user = User.objects.get(email=email)
-
-            else:
-
-                con = Contact.objects.get(phone=phone)
-
-        except:
-            messages.info(request, '  User not found!')
-
-            stuff['warning'] = True
-
-            return render(request, 'cms/forgot.html', stuff)
-
-        otp_otp = str(randint(100000, 999999))
-
-        body = body.format(otp_otp, str(datetime.datetime.now()).split(".")[0])
-
-        if len(email) > 1:
-
-            print("Email - ", user.email)
-            sendEmail(subject=subject, body=body, to=email)
+            otp_otp = "".join(choices(digits + ascii_letters + digits, k=6))
+            print(request.user, otp_otp)
+            request.user = validate_email_and_get_user(request, email)
+            user_name = request.user.first_name
+            user_ip = get_user_ip(request)
+            print(user_name, user_ip)
+            text_body = email_body_text[otp_request].format(
+                user_name, user_ip, otp_otp, current_time_date)
+            html_body = email_body_html[otp_request].format(
+                user_name, user_ip, otp_otp, current_time_date)
+            print("Email - ", request.user.email)
+            sendEmail(subject=email_subjects[otp_request],
+                      body=text_body, to=email, alternative=html_body)
             messages.info(
                 request, '  An OTP is sent to your registered email id. ')
-            uid = user.id
+            uid = request.user.id
             OTP[uid] = otp_otp
 
-        else:
-
-            print("SMS - ", con.phone)
-            msg = sendSMS(body=body, to="+91"+con.phone)
-            messages.info(request, msg)
-
-            if 'fail' in msg:
-                stuff['warning'] = True
-                return render(request, 'cms/forgot.html', stuff)
-
-            uid = con.user_id
-            OTP[uid] = otp_otp
+        except Exception as error:
+            print("[SERVER ERROR] OTP ERROR - ", error)
+            messages.info(request, '  User not found!')
+            user_session['warning'] = True
+            return render(request, 'cms/forgot.html', user_session)
 
         print(otp_otp)
 
-        stuff['warning'] = False
+        user_session['warning'] = False
 
         return redirect('otp', uid=uid)
 
-    return render(request, 'cms/forgot.html', stuff)
+    return render(request, 'cms/forgot.html', user_session)
 
 
 def change(request, uid=-1):
 
-    global stuff
+    global user_session, email_subjects, email_body_html, email_body_text
+    current_time_date: str = str(
+        datetime.datetime.now()).split(".")[0]
 
-    if stuff['change'] == True:
+    if user_session['change'] == True:
 
-        stuff['change'] = False
-
+        user_session['change'] = False
         user = User.objects.get(id=uid)
-
-        stuff['name'] = user.first_name
-
-        return render(request, 'cms/change.html', stuff)
+        user_session['name'] = user.first_name
+        return render(request, 'cms/change.html', user_session)
 
     if request.method == "POST":
 
         passw = request.POST['password']
-
         confirm = request.POST['confirm']
 
         if passw != confirm:
 
             messages.info(request, '  Password does not match')
-
-            stuff['warning'] = True
-
-            return render(request, 'cms/change.html', stuff)
+            user_session['warning'] = True
+            return render(request, 'cms/change.html', user_session)
 
         user = User.objects.get(pk=uid)
-
+        user_email = user.email
+        user_name = user.first_name
+        user_ip = get_user_ip(request)
         user.set_password(passw)
-
         user.save()
-
         messages.info(request, '  Password is changed')
-
-        stuff['warning'] = False
-
+        user_session['warning'] = False
+        text_body = email_body_text[password_change].format(
+            user_name, user_ip,  current_time_date)
+        html_body = email_body_html[password_change].format(
+            user_name, user_ip, current_time_date)
+        sendEmail(subject=email_subjects[password_change],
+                  body=text_body, to=user_email, alternative=html_body)
         return redirect('login')
 
-    return render(request, 'cms/forbid.html', stuff)
+    return render(request, 'cms/forbid.html', user_session)
 
 
 def logout(request):
 
-    global stuff
-
+    global user_session
     auth.logout(request)
-
     messages.info(request, '  User Logged Out ')
-
-    stuff['warning'] = False
-
+    user_session['warning'] = False
     return redirect('home')

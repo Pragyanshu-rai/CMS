@@ -57,12 +57,12 @@
                 <div class="col-lg-4">
                     <div class="card pointer">
                         {% if "null" not in contact.profile_pic %}
-                            <img src="{{ contact.profile_pic.url }}" class="card-img-top" height="400px;" alt="profile picture">
+                            <img src="{{ contact.profile_pic.url }}" class="card-img-top rounded img-fluid border border-primary" height="400px;" alt="profile picture">
                         {% else %}
                         {% if contact.gender == "Male" %}
-                            <img src="{% static 'cms/img/male_avatar.svg' %}" class="card-img-top gradient" height="400px;"/>
+                            <img src="{% static 'cms/img/male_avatar.svg' %}" class="card-img-top border border-primary rounded gradient" height="400px;"/>
                         {% else %}
-                            <img src="{% static 'cms/img/female_avatar.svg' %}" class="card-img-top gradient" height="400px;"/>
+                            <img src="{% static 'cms/img/female_avatar.svg' %}" class="card-img-top border border-primary rounded gradient" height="400px;"/>
                         {% endif %}
                         {% endif %}
                         <div class="card-body">
