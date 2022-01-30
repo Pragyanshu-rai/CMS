@@ -1,6 +1,5 @@
 # from django.shortcuts import redirect
 import datetime
-from black import out, traceback
 from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -138,7 +137,7 @@ class request_otp(APIView):
 
         except Exception as error:
             print("[SERVER-ERROR]", error)
-            traceback.print_exc()
+            # traceback.print_exc()
             return JsonResponse({"ERR": "Error occurred while generating OTP", "authStatus": False}, safe=False)
 
     def __validate(sef, request):
@@ -172,7 +171,7 @@ class request_otp(APIView):
             return JsonResponse({"MSG": "OTP validated and Password Reset Request Raised!", "authToken": user_token, "authStatus": True}, safe=False)
 
         except Exception as error:
-            traceback.print_exc()
+            # traceback.print_exc()
             print("[SERVER-ERROR]", error)
             return JsonResponse({"ERR": "Error occurred while validating the otp!", "authStatus": False}, safe=False)
 
