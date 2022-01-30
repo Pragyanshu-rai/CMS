@@ -1,8 +1,11 @@
 # email utility variables
 
+
+
 email_subject_otp: str = "Changing your CMS password"
 email_subject_invalid_login: str = "ACTION REQUIRED: Suspicious Activity"
 email_subject_password_changed: str = "Password Updated"
+
 
 email_body_otp: str = """
 Dear {},
@@ -79,27 +82,30 @@ email_body_otp_html: str = """\
         /* Importing the ubuntu font */
         @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 
-        *:focus {
+        *:focus {{
             outline: none;
-        }
+        }}
 
-        a {
+        a {{
             text-decoration: none;
-        }
+        }}
 
-        html {
+        html {{
             /*for smooth scrolling*/
             scroll-behavior: smooth;
-        }
+        }}
 
-        body {
+        body {{
             background-color: lightblue;
             font-family: 'Ubuntu', sans-serif;
             font-weight: 570;
             font-size: larger;
-        }
+            height: 100%
+            min-height: 100%
+            height: 100%
+        }}
 
-        .main-body {
+        .main-body {{
             max-width: 60%;
             min-width: 60%;
             max-height: 90%;
@@ -107,9 +113,9 @@ email_body_otp_html: str = """\
             margin-left: 20%;
             margin-top: 5%;
             background-color: aliceblue;
-        }
+        }}
 
-        footer {
+        footer {{
             max-width: 60%;
             min-width: 60%;
             margin-left: 20%;
@@ -118,40 +124,40 @@ email_body_otp_html: str = """\
             font-weight: 400;
             font-size: large;
             text-align: center;
-        }
+        }}
 
-        .important {
+        .important {{
             font-size: large;
             font-weight: bold;
             color: dodgerblue;
-        }
+        }}
 
-        .image {
+        .image {{
             border: none;
             border-radius: 2%;
             max-height: 30vh;
-        }
+        }}
 
-        .banner {
+        .banner {{
             margin-top: 1vh;
             max-height: 100%;
-        }
+        }}
 
-        .banner_holder {
+        .banner_holder {{
             text-align: center;
             background-color: dodgerblue;
             max-height: 30%;
-        }
+        }}
 
-        .division {
+        .division {{
             max-width: 100%;
             min-width: 100%;
             min-height: 0.5vh;
             max-height: 0.5vh;
             background-color: lightblue;
-        }
+        }}
 
-        .message_holder {
+        .message_holder {{
             max-width: 90%;
             min-width: 90%;
             min-height: 70%;
@@ -160,34 +166,34 @@ email_body_otp_html: str = """\
             margin-top: 3%;
             margin-bottom: 3%;
             /* background-color: aqua; */
-        }
+        }}
 
-        .message {
+        .message {{
             font-size: x-large;
             line-height: 3vh;
-        }
+        }}
 
-        .bold {
+        .bold {{
             font-weight: bold;
-        }
+        }}
 
-        .pulsate {
+        .pulsate {{
             animation: pulse 2s ease-in-out infinite;
-        }
+        }}
 
-        @keyframes pulse {
-            0% {
+        @keyframes pulse {{
+            0% {{
                 transform: scale(0.97);
-            }
+            }}
 
-            70% {
+            70% {{
                 transform: scale(1.0);
-            }
+            }}
 
-            100% {
+            100% {{
                 transform: scale(0.97);
-            }
-        }
+            }}
+        }}
     </style>
 </head>
 
@@ -269,27 +275,27 @@ email_body_invalid_login_html: str = """\
         /* Importing the ubuntu font */
         @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 
-        *:focus {
+        *:focus {{
             outline: none;
-        }
+        }}
 
-        a {
+        a {{
             text-decoration: none;
-        }
+        }}
 
-        html {
+        html {{
             /*for smooth scrolling*/
             scroll-behavior: smooth;
-        }
+        }}
 
-        body {
+        body {{
             background-color: lightblue;
             font-family: 'Ubuntu', sans-serif;
             font-weight: 570;
             font-size: larger;
-        }
+        }}
 
-        .main-body {
+        .main-body {{
             max-width: 60%;
             min-width: 60%;
             max-height: 90%;
@@ -297,9 +303,9 @@ email_body_invalid_login_html: str = """\
             margin-left: 20%;
             margin-top: 5%;
             background-color: aliceblue;
-        }
+        }}
 
-        footer {
+        footer {{
             max-width: 60%;
             min-width: 60%;
             margin-left: 20%;
@@ -308,40 +314,40 @@ email_body_invalid_login_html: str = """\
             font-weight: 400;
             font-size: large;
             text-align: center;
-        }
+        }}
 
-        .important {
+        .important {{
             font-size: large;
             font-weight: bold;
             color: dodgerblue;
-        }
+        }}
 
-        .image {
+        .image {{
             border: none;
             border-radius: 2%;
             max-height: 30vh;
-        }
+        }}
 
-        .banner {
+        .banner {{
             margin-top: 1vh;
             max-height: 100%;
-        }
+        }}
 
-        .banner_holder {
+        .banner_holder {{
             text-align: center;
             background-color: dodgerblue;
             max-height: 30%;
-        }
+        }}
 
-        .division {
+        .division {{
             max-width: 100%;
             min-width: 100%;
             min-height: 0.5vh;
             max-height: 0.5vh;
             background-color: lightblue;
-        }
+        }}
 
-        .message_holder {
+        .message_holder {{
             max-width: 90%;
             min-width: 90%;
             min-height: 70%;
@@ -349,34 +355,35 @@ email_body_invalid_login_html: str = """\
             margin-left: 5%;
             margin-top: 3%;
             margin-bottom: 3%;
-        }
+            /* background-color: aqua; */
+        }}
 
-        .message {
+        .message {{
             font-size: x-large;
             line-height: 3vh;
-        }
+        }}
 
-        .bold {
+        .bold {{
             font-weight: bold;
-        }
+        }}
 
-        .pulsate {
+        .pulsate {{
             animation: pulse 2s ease-in-out infinite;
-        }
+        }}
 
-        @keyframes pulse {
-            0% {
+        @keyframes pulse {{
+            0% {{
                 transform: scale(0.97);
-            }
+            }}
 
-            70% {
+            70% {{
                 transform: scale(1.0);
-            }
+            }}
 
-            100% {
+            100% {{
                 transform: scale(0.97);
-            }
-        }
+            }}
+        }}
     </style>
 </head>
 
@@ -468,27 +475,27 @@ email_body_password_changed_html: str = """\
         /* Importing the ubuntu font */
         @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 
-        *:focus {
+        *:focus {{
             outline: none;
-        }
+        }}
 
-        a {
+        a {{
             text-decoration: none;
-        }
+        }}
 
-        html {
+        html {{
             /*for smooth scrolling*/
             scroll-behavior: smooth;
-        }
+        }}
 
-        body {
+        body {{
             background-color: lightblue;
             font-family: 'Ubuntu', sans-serif;
             font-weight: 570;
             font-size: larger;
-        }
+        }}
 
-        .main-body {
+        .main-body {{
             max-width: 60%;
             min-width: 60%;
             max-height: 90%;
@@ -496,9 +503,9 @@ email_body_password_changed_html: str = """\
             margin-left: 20%;
             margin-top: 5%;
             background-color: aliceblue;
-        }
+        }}
 
-        footer {
+        footer {{
             max-width: 60%;
             min-width: 60%;
             margin-left: 20%;
@@ -507,40 +514,40 @@ email_body_password_changed_html: str = """\
             font-weight: 400;
             font-size: large;
             text-align: center;
-        }
+        }}
 
-        .important {
+        .important {{
             font-size: large;
             font-weight: bold;
             color: dodgerblue;
-        }
+        }}
 
-        .image {
+        .image {{
             border: none;
             border-radius: 2%;
             max-height: 30vh;
-        }
+        }}
 
-        .banner {
+        .banner {{
             margin-top: 1vh;
             max-height: 100%;
-        }
+        }}
 
-        .banner_holder {
+        .banner_holder {{
             text-align: center;
             background-color: dodgerblue;
             max-height: 30%;
-        }
+        }}
 
-        .division {
+        .division {{
             max-width: 100%;
             min-width: 100%;
             min-height: 0.5vh;
             max-height: 0.5vh;
             background-color: lightblue;
-        }
+        }}
 
-        .message_holder {
+        .message_holder {{
             max-width: 90%;
             min-width: 90%;
             min-height: 70%;
@@ -548,34 +555,35 @@ email_body_password_changed_html: str = """\
             margin-left: 5%;
             margin-top: 3%;
             margin-bottom: 3%;
-        }
+            /* background-color: aqua; */
+        }}
 
-        .message {
+        .message {{
             font-size: x-large;
             line-height: 3vh;
-        }
+        }}
 
-        .bold {
+        .bold {{
             font-weight: bold;
-        }
+        }}
 
-        .pulsate {
+        .pulsate {{
             animation: pulse 2s ease-in-out infinite;
-        }
+        }}
 
-        @keyframes pulse {
-            0% {
+        @keyframes pulse {{
+            0% {{
                 transform: scale(0.97);
-            }
+            }}
 
-            70% {
+            70% {{
                 transform: scale(1.0);
-            }
+            }}
 
-            100% {
+            100% {{
                 transform: scale(0.97);
-            }
-        }
+            }}
+        }}
     </style>
 </head>
 

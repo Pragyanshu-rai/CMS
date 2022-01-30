@@ -17,12 +17,11 @@ def sendEmail(subject, body, to, alternative=None):
 
     # add the alternative if provided
     if alternative is not None:
-        message.add_alternative(alternative)
-    
+        message.add_alternative(alternative, subtype='html')
+
     # authentication
     sender = environ["SYSTEM_EMAIL"]
     password = environ["SYSTEM_EMAIL_PASSKEY"]
-
 
     message['subject'] = subject
     message['to'] = to
@@ -40,3 +39,22 @@ def sendEmail(subject, body, to, alternative=None):
 
     except Exception as error:
         print("[SERVER ERROR] EMAIL ERROR - ", error)
+
+
+def format_email_body(body: str, user_name: str, user_ip: str, current_date_time: str, otp:str = None) -> str:
+    """
+        Given the email body and the details to fill in this function will fill the data in the string. \n
+        NOTE: Only otp is optional argument.
+    """
+    substitutes: list = [
+        user_name,
+        user_ip,
+        current_date_time,
+    ]
+
+    if otp is not None:
+        substitutes.append(otp)
+    
+    body = body.format(*substitutes)
+
+    return body

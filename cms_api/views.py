@@ -1,5 +1,6 @@
 # from django.shortcuts import redirect
 import datetime
+from black import out, traceback
 from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -20,7 +21,7 @@ from cms.serializers import ContactSerializer, HistorySerializer, DoctorSerializ
 
 # importing stuff from cmsUtils module which is parallel to cms_api(this) module
 from cmsUtils.apiUtils import models_to_dict, get_contact_or_none, validate_signup
-from cmsUtils.mail import sendEmail
+from cmsUtils.mail import format_email_body, sendEmail
 from cmsUtils.emailUtils import email_subjects, email_body_text, email_body_html
 from cmsUtils.viewUtils import get_user_ip, validate_email_and_get_user
 
@@ -66,14 +67,12 @@ def signup(request):
     try:
 
         if len(request.body) > 0:
-
             python_data = JSONParser().parse(BytesIO(request.body))
             print(python_data)
             valid = validate_signup(python_data)
             print(valid)
 
             if valid != None:
-
                 return JsonResponse({"ERR": valid, "authStatus": False}, safe=False)
 
             print(python_data)
@@ -111,39 +110,77 @@ class request_otp(APIView):
         current_date_time: str = str(datetime.datetime.now()).split(".")[0]
 
         try:
-            email = JSONParser().parse(BytesIO(request.body)).pop("email")
+            user_email = JSONParser().parse(BytesIO(request.body)).pop("email")
             # genrating a 6-digit random alphanumeric OTP for validation
             otp = "".join(choices(digits + ascii_letters + digits, k=6))
             print(request)
-            request.user = validate_email_and_get_user(request, email)
+            print(User.objects.filter().values_list('email', flat=True))
+            request.user = validate_email_and_get_user(request, user_email)
             print(request)
             otp_book[request.user.id] = otp
             user_name = request.user.first_name
             user_ip = get_user_ip(request)
             print(user_name, user_ip)
-            text_body = email_body_text[self.__otp_request].format(
-                user_name, user_ip, otp, current_date_time)
-            html_body = email_body_html[self.__otp_request].format(
-                user_name, user_ip, otp, current_date_time)
+            text_body = format_email_body(
+                email_body_text[self.__otp_request], user_name, user_ip, current_date_time, otp)
+            html_body = format_email_body(
+                email_body_html[self.__otp_request], user_name, user_ip, current_date_time, otp)
 
-            if email != "":
+            if user_email != "":
                 sendEmail(subject=email_subjects[self.__otp_request],
-                          body=text_body, to=email, alternative=html_body)
-                user_token = str(Token.objects.get(user=request.user))
-                print("user token generated")
+                          body=text_body, to=user_email, alternative=html_body)
+                print("otp request email sent to -", user_email, otp)
 
             else:
                 return JsonResponse({"ERR": "'email' is required but not provided!", "authStatus": False}, safe=False)
 
-            return JsonResponse({"MSG": "OTP Sent To The Registered Email.", "authToken": user_token, "authStatus": True, "userId": request.user.id, "firstName": user_name}, safe=False)
+            return JsonResponse({"MSG": "OTP Sent To The Registered Email.", "authStatus": True, "userId": request.user.id, "firstName": user_name}, safe=False)
 
         except Exception as error:
             print("[SERVER-ERROR]", error)
+            traceback.print_exc()
             return JsonResponse({"ERR": "Error occurred while generating OTP", "authStatus": False}, safe=False)
 
-    def get(self, request):
+    def __validate(sef, request):
 
+        global otp_book, password_reset_request, email_body_text, email_body_html, email_subjects
+
+        try:
+            otp = JSONParser().parse(BytesIO(request.body)).pop("otp")
+            user_id = request.headers["User-Id"]
+            request.user = User.objects.get(pk=user_id)
+            print("user -", request.user)
+
+            if otp != "":
+
+                if otp_book.get(request.user.id, None) == otp:
+                    # delete the otp once it is validated
+                    del otp_book[request.user.id]
+                    print("OTP Validated")
+                    password_reset_request.append(request.user.id)
+                    print("Password Reset Request Raised!",
+                          password_reset_request)
+                    user_token = str(Token.objects.get(user=request.user))
+                    print("user token generated")
+
+                else:
+                    return JsonResponse({"ERR": "Invalid OTP!", "authStatus": False}, safe=False)
+
+            else:
+                return JsonResponse({"ERR": "'otp' is required but not provided!", "authStatus": False}, safe=False)
+
+            return JsonResponse({"MSG": "OTP validated and Password Reset Request Raised!", "authToken": user_token, "authStatus": True}, safe=False)
+
+        except Exception as error:
+            traceback.print_exc()
+            print("[SERVER-ERROR]", error)
+            return JsonResponse({"ERR": "Error occurred while validating the otp!", "authStatus": False}, safe=False)
+
+    def get(self, request):
         return self.__generate_otp(request)
+
+    def post(self, request):
+        return self.__validate(request)
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -157,34 +194,6 @@ class reset_password(APIView):
         self.__password_change: str = "passwordChange"
         self.__invalid_login: str = "invalidLogin"
 
-    def __validate(sef, request):
-
-        global otp_book, password_reset_request, email_body_text, email_body_html, email_subjects
-
-        try:
-            otp = JSONParser().parse(BytesIO(request.body)).pop("otp")
-
-            if otp != "":
-
-                if otp_book.get(request.user.id, None) == otp:
-                    # delete the otp once it is validated
-                    del otp_book[otp]
-                    print("OTP Validated")
-                    password_reset_request.append(request.user.id)
-                    print("Password Reset Request Raised!")
-
-                else:
-                    return JsonResponse({"ERR": "Invalid OTP!", "authStatus": False}, safe=False)
-
-            else:
-                return JsonResponse({"ERR": "'otp' is required but not provided!", "authStatus": False}, safe=False)
-
-            return JsonResponse({"MSG": "OTP Sent To The Registered Email.", "OTP": otp, "authStatus": True}, safe=False)
-
-        except Exception as error:
-            print("[SERVER-ERROR]", error)
-            return JsonResponse({"ERR": error, "authStatus": False}, safe=False)
-
     def __update_password(self, request):
 
         global password_reset_request, email_body_text, email_body_html, email_subjects
@@ -192,9 +201,11 @@ class reset_password(APIView):
 
         try:
             new_password = JSONParser().parse(BytesIO(request.body)).pop("password")
-            request.user = validate_email_and_get_user(request)
             user_id = request.user.id
-            print(user_id)
+            user_email = request.user.email
+            user_name = request.user.first_name
+            user_ip = get_user_ip(request)
+            print(user_id, password_reset_request)
 
             if new_password != "":
 
@@ -208,28 +219,30 @@ class reset_password(APIView):
 
                 else:
                     print("Invalid Login Attempt! logged at - ", current_date_time)
-                    user_email = request.user.email
-                    user_name = request.user.first_name
-                    user_ip = get_user_ip(request)
-                    text_body = email_body_text[self.__invalid_login].format(
-                        user_name, user_ip, current_date_time)
-                    html_body = email_body_html[self.__invalid_login].format(
-                        user_name, user_ip, current_date_time)
+                    text_body = format_email_body(
+                        email_body_text[self.__invalid_login], user_name, user_ip, current_date_time)
+                    html_body = format_email_body(
+                        email_body_html[self.__invalid_login], user_name, user_ip, current_date_time)
                     sendEmail(subject=email_subjects[self.__invalid_login],
-                            body=text_body, to=user_email, alternative=html_body)
+                              body=text_body, to=user_email, alternative=html_body)
+                    print("Alert email sent to -", user_email)
                     return JsonResponse({"ERR": "Invalid Login Attempt has been logged!", "authStatus": False}, safe=False)
 
             else:
                 return JsonResponse({"ERR": "'password' is required but not provided!", "authStatus": False}, safe=False)
 
+            text_body = format_email_body(
+                email_body_text[self.__password_change], user_name, user_ip, current_date_time)
+            html_body = format_email_body(
+                email_body_html[self.__password_change], user_name, user_ip, current_date_time)
+            sendEmail(subject=email_subjects[self.__password_change],
+                      body=text_body, to=user_email, alternative=html_body)
+            print("Conformation email sent to -", user_email)
             return JsonResponse({"MSG": "Password reset successful.", "authStatus": True}, safe=False)
 
         except Exception as error:
             print("[SERVER-ERROR]", error)
             return JsonResponse({"ERR": "Error occurred while updating the password", "authStatus": False}, safe=False)
-
-    def post(self, request):
-        return self.__validate(request)
 
     def put(self, request):
         return self.__update_password(request)

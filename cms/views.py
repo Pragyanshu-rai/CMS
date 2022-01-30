@@ -7,7 +7,7 @@ import datetime
 from cms.viewsUtil import modifySession
 from cms.models import *
 from cms.forms import updateContact
-from cmsUtils.mail import sendEmail
+from cmsUtils.mail import format_email_body, sendEmail
 from cmsUtils.emailUtils import email_body_html, email_body_text, email_subjects
 from cmsUtils.viewUtils import get_user_ip, validate_email_and_get_user
 
@@ -445,7 +445,7 @@ def otp(request, uid=-1):
 def forgot(request):
 
     global user_session, OTP, email_body_text, email_body_html, email_subjects
-    current_time_date: str = str(
+    current_date_time: str = str(
         datetime.datetime.now()).split(".")[0]
 
     if request.method == "POST":
@@ -460,13 +460,13 @@ def forgot(request):
             user_name = request.user.first_name
             user_ip = get_user_ip(request)
             print(user_name, user_ip)
-            text_body = email_body_text[otp_request].format(
-                user_name, user_ip, otp_otp, current_time_date)
-            html_body = email_body_html[otp_request].format(
-                user_name, user_ip, otp_otp, current_time_date)
-            print("Email - ", request.user.email)
+            text_body = format_email_body(
+                email_body_text[otp_request], user_name, user_ip, current_date_time, otp_otp)
+            html_body = format_email_body(
+                email_body_html[otp_request], user_name, user_ip, current_date_time, otp_otp)
             sendEmail(subject=email_subjects[otp_request],
                       body=text_body, to=email, alternative=html_body)
+            print("Email sent - ", request.user.email)
             messages.info(
                 request, '  An OTP is sent to your registered email id. ')
             uid = request.user.id
@@ -490,7 +490,7 @@ def forgot(request):
 def change(request, uid=-1):
 
     global user_session, email_subjects, email_body_html, email_body_text
-    current_time_date: str = str(
+    current_date_time: str = str(
         datetime.datetime.now()).split(".")[0]
 
     if user_session['change'] == True:
@@ -519,10 +519,10 @@ def change(request, uid=-1):
         user.save()
         messages.info(request, '  Password is changed')
         user_session['warning'] = False
-        text_body = email_body_text[password_change].format(
-            user_name, user_ip,  current_time_date)
-        html_body = email_body_html[password_change].format(
-            user_name, user_ip, current_time_date)
+        text_body = format_email_body(
+            email_body_text[password_change], user_name, user_ip, current_date_time)
+        html_body = format_email_body(
+            email_body_html[password_change], user_name, user_ip, current_date_time)
         sendEmail(subject=email_subjects[password_change],
                   body=text_body, to=user_email, alternative=html_body)
         return redirect('login')

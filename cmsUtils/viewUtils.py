@@ -27,22 +27,28 @@ def get_user_ip(request) -> str:
     return ip
 
 
-def validate_email_and_get_user(request, email: str = None) -> User:
+def validate_email_and_get_user(request, email: str) -> User:
     """
-        Given the request object and the email* this function will validate if the user exists
-        and fetch the user if the user exists and is not in the request object. \n
-        NOTE: * - optional arguments 
+        Given the request object and the email this function will validate if the user exists
+        and fetch the user if the user exists and is not in the request object.
     """
     if request.user.id is None:
-        request.user = User.objects.get(email=email)
+        print(email)
+        try:
+            request.user = User.objects.get(email=email)
+
+        except Exception as error:
+            print("[SERVER ERROR] Validation error -", error)
+            raise Exception
+
         print("user - ", request.user)
 
         if request.user is None:
-            return Exception
+            raise Exception
 
     else:
 
         if email is not None and request.user.email != email:
-            return Exception
+            raise Exception
 
     return request.user
