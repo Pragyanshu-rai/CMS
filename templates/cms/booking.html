@@ -24,12 +24,12 @@
                 <div class="col-lg-4">
                     <div class="card pointer">
                         {% if "null" not in doctor.profile_pic %}
-                            <img src="{{ doctor.profile_pic.url }}" class="card-img-top" height="300px;" alt="Doctor profile picture">
+                            <img src="{{ doctor.profile_pic.url }}" class="card-img-top rounded img-fluid border border-primary" height="300px;" alt="Doctor profile picture">
                         {% else %}
                             {% if doctor.gender == "Male" %}
-                            <img src="{% static 'cms/img/doctor_male.svg' %}" class="card-img-top gradient" height="300px;"/>
+                            <img src="{% static 'cms/img/doctor_male.svg' %}" class="card-img-top gradient rounded img-fluid border border-primary" height="300px;"/>
                             {% else %}
-                            <img src="{% static 'cms/img/doctor_female.svg' %}" class="card-img-top gradient" height="300px;"/>
+                            <img src="{% static 'cms/img/doctor_female.svg' %}" class="card-img-top gradient rounded img-fluid border border-primary" height="300px;"/>
                             {% endif %}
                         {% endif %}
                         <div class="card-body">
