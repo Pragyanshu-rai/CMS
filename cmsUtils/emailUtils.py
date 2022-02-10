@@ -74,10 +74,10 @@ email_body_otp_html: str = """\
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>OTP REQUEST EMAIL</title>
     <style>
-        .btn-primary:hover {
+        .btn-primary:hover {{
             background-color: dodgerblue;
             color: white
-        }
+        }}
     </style>
     <style type="text/css">
         /* -------------------------------------
@@ -111,41 +111,41 @@ email_body_otp_html: str = """\
       		For clients that support media queries.
       		Nothing fancy.
       -------------------------------------------- */
-        @media only screen and (max-width: 600px) {
-            a[class="btn"] {
+        @media only screen and (max-width: 600px) {{
+            a[class="btn"] {{
                 display: block !important;
                 margin-bottom: 10px !important;
                 background-image: none !important;
                 margin-right: 0 !important;
-            }
+            }}
 
-            div[class="column"] {
+            div[class="column"] {{
                 width: auto !important;
                 float: none !important;
-            }
+            }}
 
-            table.social div[class="column"] {
+            table.social div[class="column"] {{
                 width: auto !important;
-            }
-        }
+            }}
+        }}
 
         /*
               Animations
               simple animations to make the email feel more alive
                */
-        @keyframes pulse {
-            0% {
+        @keyframes pulse {{
+            0% {{
                 transform: scale(0.97);
-            }
+            }}
 
-            70% {
+            70% {{
                 transform: scale(1.0);
-            }
+            }}
 
-            100% {
+            100% {{
                 transform: scale(0.97);
-            }
-        }
+            }}
+        }}
     </style>
 </head>
 
@@ -348,10 +348,10 @@ email_body_invalid_login_html: str = """\
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>INVALID LOGIN EMAIL</title>
     <style>
-        .btn-primary:hover {
+        .btn-primary:hover {{
             background-color: dodgerblue;
             color: white
-        }
+        }}
     </style>
     <style type="text/css">
         /* -------------------------------------
@@ -385,41 +385,41 @@ email_body_invalid_login_html: str = """\
       		For clients that support media queries.
       		Nothing fancy.
       -------------------------------------------- */
-        @media only screen and (max-width: 600px) {
-            a[class="btn"] {
+        @media only screen and (max-width: 600px) {{
+            a[class="btn"] {{
                 display: block !important;
                 margin-bottom: 10px !important;
                 background-image: none !important;
                 margin-right: 0 !important;
-            }
+            }}
 
-            div[class="column"] {
+            div[class="column"] {{
                 width: auto !important;
                 float: none !important;
-            }
+            }}
 
-            table.social div[class="column"] {
+            table.social div[class="column"] {{
                 width: auto !important;
-            }
-        }
+            }}
+        }}
 
         /*
               Animations
               simple animations to make the email feel more alive
                */
-        @keyframes pulse {
-            0% {
+        @keyframes pulse {{
+            0% {{
                 transform: scale(0.97);
-            }
+            }}
 
-            70% {
+            70% {{
                 transform: scale(1.0);
-            }
+            }}
 
-            100% {
+            100% {{
                 transform: scale(0.97);
-            }
-        }
+            }}
+        }}
     </style>
 </head>
 
@@ -623,10 +623,10 @@ email_body_password_changed_html: str = """\
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>PASSWORD CHANGE EMAIL</title>
     <style>
-        .btn-primary:hover {
+        .btn-primary:hover {{
             background-color: dodgerblue;
             color: white
-        }
+        }}
     </style>
     <style type="text/css">
         /* -------------------------------------
@@ -660,41 +660,41 @@ email_body_password_changed_html: str = """\
       		For clients that support media queries.
       		Nothing fancy.
       -------------------------------------------- */
-        @media only screen and (max-width: 600px) {
-            a[class="btn"] {
+        @media only screen and (max-width: 600px) {{
+            a[class="btn"] {{
                 display: block !important;
                 margin-bottom: 10px !important;
                 background-image: none !important;
                 margin-right: 0 !important;
-            }
+            }}
 
-            div[class="column"] {
+            div[class="column"] {{
                 width: auto !important;
                 float: none !important;
-            }
+            }}
 
-            table.social div[class="column"] {
+            table.social div[class="column"] {{
                 width: auto !important;
-            }
-        }
+            }}
+        }}
 
         /*
               Animations
               simple animations to make the email feel more alive
                */
-        @keyframes pulse {
-            0% {
+        @keyframes pulse {{
+            0% {{
                 transform: scale(0.97);
-            }
+            }}
 
-            70% {
+            70% {{
                 transform: scale(1.0);
-            }
+            }}
 
-            100% {
+            100% {{
                 transform: scale(0.97);
-            }
-        }
+            }}
+        }}
     </style>
 </head>
 
