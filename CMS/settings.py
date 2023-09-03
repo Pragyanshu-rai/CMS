@@ -31,7 +31,7 @@ SECRET_KEY = environ.get("DJ_SECRET_KEY", default=None)
 DEBUG = int(environ.get("DJ_DEBUG", default=0))
 
 ALLOWED_HOSTS = [
-    'cms-wa.herokuapp.com',
+    '.vercel.app',
     '*'
 ]
 
