@@ -28,7 +28,7 @@ Developed an OTP veriﬁcation method using a mail module to send an OTP to the 
    * [For Patient](#for-patient)  
    * [For Clinic](#for-clinic)  
  
- * [Links](#links)
+ <!-- * [Links](#links) -->
  * [API Reference](#api-reference)
 
    * [Login](#login)
@@ -93,7 +93,7 @@ Developed an OTP veriﬁcation method using a mail module to send an OTP to the 
       * Manage patient records easily.
       * Reduces overhead on the staff.
       * Manage everything using the admin panel of CMS.
-
+<!--
 ## Links
 
 ##### CMS website can be accessed using the link below.
@@ -109,7 +109,7 @@ Developed an OTP veriﬁcation method using a mail module to send an OTP to the 
 You can use the CMS API to communicate with the server, but to do so, you must first acquire an auth token by logging in.
 
 >*Note:- For login and registration, the auth token is not required.*
-
+-->
 ## API reference
 
 #### login
