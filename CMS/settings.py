@@ -31,8 +31,8 @@ SECRET_KEY = environ.get("DJ_SECRET_KEY", default=None)
 DEBUG = int(environ.get("DJ_DEBUG", default=0))
 
 ALLOWED_HOSTS = [
-    '.vercel.app',
-    '*'
+    '*.vercel.app', # prod host 
+    '0.0.0.0' # local host
 ]
 
 
@@ -91,8 +91,8 @@ WSGI_APPLICATION = 'CMS.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': BASE_DIR / 'db.sqlite3', # the dev local dbms server
+        'ENGINE': 'django.db.backends.sqlite3', #'django.db.backends.postgresql',
+        'NAME': BASE_DIR / 'db.sqlite3', # the dev local dbms server
         'NAME': environ.get('PSQL_NAME'),
         'HOST': environ.get('PSQL_HOST'),
         'PORT': environ.get('PSQL_PORT'),
