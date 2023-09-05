@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo 'starting build sequence';
-sudo apt install -y python3-pip;
+apt install -y python3-pip;
 pip install -r requirements.txt;
 python3 manage.py makemigrations;
 python3 manage.py migrate;
