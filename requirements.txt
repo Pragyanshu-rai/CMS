@@ -4,8 +4,7 @@ django-filter==2.4.0
 djangorestframework
 djangorestframework-simplejwt
 django-storages==1.11.1
-django-suit @ https://github.com/darklow/django-suit/tarball/v2
-#Pillow==7.0.0
+db-sqlite3
 PyJWT
 simplejson==3.16.0
 twilio
@@ -13,4 +12,5 @@ whitenoise==5.2.0
 gunicorn
 psycopg2-binary
 dj-database-url
-db-sqlite3
+# django-suit @ https://github.com/darklow/django-suit/tarball/v2
+# Pillow==7.0.0
