@@ -13,3 +13,4 @@ whitenoise==5.2.0
 gunicorn
 psycopg2-binary
 dj-database-url
+db-sqlite3
